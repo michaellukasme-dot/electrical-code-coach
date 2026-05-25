@@ -1404,6 +1404,56 @@ a:hover { text-decoration: underline; }
   .we-step-ref { grid-column: 2; font-size: 0.65rem; }
 }
 
+
+/* Video fallback panel ──────────────────────────────────────────── */
+.video-fallback {
+  background: linear-gradient(135deg, var(--navy), var(--navy2));
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--s-7) var(--s-6);
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+.video-fallback::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 600px 200px at 50% 0%, rgba(201,114,45,0.12), transparent 70%);
+  pointer-events: none;
+}
+.video-fallback-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+  margin-bottom: var(--s-3);
+}
+.video-fallback h3 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--copper);
+  margin-bottom: var(--s-3);
+  font-variation-settings: "opsz" 72;
+  position: relative;
+}
+.video-fallback p {
+  color: rgba(255,255,255,0.78);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 52ch;
+  margin: 0 auto var(--s-5);
+  position: relative;
+}
+.video-fallback-actions {
+  display: flex;
+  gap: var(--s-3);
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+.video-fallback-actions .btn { text-decoration: none; display: inline-block; }
+
 /* Print stylesheet — Perry's 10 Tabs reference card */
 @media print {
   body { background: white; }
@@ -1842,7 +1892,8 @@ const COURSE_DATA = {
       goals: ["Class I, II, III classified locations","Division 1 and Division 2 definitions","Zone 0, 1, 2 classification system (Art. 505, 506)","NPT fitting thread requirements: at least 5 threads (500.8(E)(1))","Manual fuel shut-off valve marking (692.54)","Outdoor overhead conductors over 1,000V (399.1)","Bonding in classified locations"],
       articles: "Art. 399, 500–516, 692",
       bloom: "Remember / Understand / Apply",
-      video: "https://www.youtube.com/watch?v=u5x7xTZthCY",
+      video: null,  // Original URL u5x7xTZthCY went dead — pending replacement from Perry's current playlist
+      videoSearchTerm: "hazardous locations class division",  // For "find on channel" link
       edNote: { "2026": "Bonding for all classes/divisions now consolidated into Art. 500 (formerly split across 501/502/503)" },
       quiz: [
         { q:"In classified locations using NPT fittings, how many threads shall be engaged?", a:"At least 5 threads (Art. 500.8(E)(1))", ref:"Art. 500.8(E)(1)" },
@@ -2515,7 +2566,7 @@ function filterVocab(q) {
 function buildWeekScreens() {
   const container = document.getElementById('week-screens');
   COURSE_DATA.weeks.forEach(w => {
-    const vid = w.video.replace('watch?v=','embed/').split('&')[0];
+    const vid = w.video ? w.video.replace('watch?v=','embed/').split('&')[0] : '';
     const html = `
     <div id="screen-week${w.num}" class="screen wide">
       <div class="module-header">
@@ -2546,11 +2597,24 @@ function buildWeekScreens() {
       </div>
 
       <div id="tab-w${w.num}-video" class="tab-content">
-        <div class="video-wrap">
-          <iframe src="${vid}" allowfullscreen loading="lazy"></iframe>
-          <div class="video-label"><span class="yt-badge">YouTube</span> Perry · The Electrical Code Coach · Week ${w.num}</div>
-        </div>
-        <p style="font-size:0.82rem;color:var(--gray3);margin-top:0.75rem">Perry's original video lesson. Quizzes, flashcards, calculator practice, and worked-example walkthroughs in this course are designed to complement the video — built directly from Perry's teaching points and updated with his latest rule corrections.</p>
+        ${w.video ? `
+          <div class="video-wrap">
+            <iframe src="${vid}" allowfullscreen loading="lazy"></iframe>
+            <div class="video-label"><span class="yt-badge">YouTube</span> Perry · The Electrical Code Coach · Week ${w.num}</div>
+          </div>
+          <p style="font-size:0.82rem;color:var(--gray3);margin-top:0.75rem">Perry's original video lesson. Quizzes, flashcards, calculator practice, and worked-example walkthroughs in this course are designed to complement the video — built directly from Perry's teaching points and updated with his latest rule corrections.</p>
+        ` : `
+          <div class="video-fallback">
+            <div class="video-fallback-icon">📺</div>
+            <h3>Video being updated</h3>
+            <p>Perry's video for this module is being replaced — the previous link is no longer available. The written material, quiz, flashcards, and calculators on this page are complete and ready to use without the video.</p>
+            <div class="video-fallback-actions">
+              <a href="https://www.youtube.com/c/ElectricalCodeCoach/search?query=${encodeURIComponent(w.videoSearchTerm || w.title)}" target="_blank" rel="noopener" class="btn btn-primary">🔍 Search Perry's channel</a>
+              <a href="https://electricalcodecoach.com" target="_blank" rel="noopener" class="btn btn-secondary">Visit electricalcodecoach.com</a>
+            </div>
+            <p style="font-size:0.78rem;color:var(--gray3);margin-top:1rem">If you find the current video on Perry's channel, you can share it with us so we can re-embed it.</p>
+          </div>
+        `}
       </div>
 
       <div id="tab-w${w.num}-quiz" class="tab-content">
