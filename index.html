@@ -2060,6 +2060,73 @@ a:hover { text-decoration: underline; }
 }
 .lc-refs strong { color: var(--navy); font-weight: 600; }
 
+/* Edition logic panel — disclosure that proves edition-aware math */
+.lc-logic-panel {
+  background: var(--white);
+  border: 1px solid var(--gray2);
+  border-radius: var(--radius);
+  margin-top: var(--s-3);
+  box-shadow: var(--shadow2);
+  overflow: hidden;
+}
+.lc-logic-panel summary {
+  list-style: none;
+  cursor: pointer;
+  padding: var(--s-3) var(--s-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  user-select: none;
+  background: var(--cream);
+  transition: background 0.15s ease;
+}
+.lc-logic-panel summary::-webkit-details-marker { display: none; }
+.lc-logic-panel summary:hover { background: color-mix(in srgb, var(--ed-current) 8%, var(--cream)); }
+.lc-logic-caret {
+  color: var(--gray4);
+  transition: transform 0.18s ease;
+}
+.lc-logic-panel[open] .lc-logic-caret { transform: rotate(180deg); }
+.lc-logic-body { padding: var(--s-4) var(--s-5); }
+.lc-logic-table-wrap { overflow-x: auto; }
+.lc-logic-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: 600px;
+}
+.lc-logic-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray3);
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 2px solid var(--gray2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.lc-logic-table td {
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px solid var(--gray1);
+  color: var(--text);
+  vertical-align: top;
+}
+.lc-logic-table tr:last-child td { border-bottom: none; }
+.lc-logic-table tr.active td {
+  background: color-mix(in srgb, var(--ed-current) 10%, transparent);
+  font-weight: 500;
+}
+.lc-logic-table tr.active td:first-child {
+  border-left: 3px solid var(--ed-current);
+  padding-left: calc(var(--s-3) - 3px);
+}
+
 
 
 
@@ -2195,6 +2262,371 @@ a:hover { text-decoration: underline; }
   .ed-picker-label { font-size: 0.72rem; }
   .logo-sub { display: none; }  /* keep the brand wordmark clean on small screens */
 }
+
+
+
+/* ═══ AMPACITY CALCULATOR ═════════════════════════════════════════ */
+.amp-section {
+  margin-top: var(--s-6);
+  background: var(--white);
+  border: 1px solid var(--gray2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow2);
+  overflow: hidden;
+  border-top: 4px solid var(--ed-current, var(--copper));
+}
+
+.amp-header {
+  padding: var(--s-5) var(--s-6);
+  background: var(--cream);
+  border-bottom: 1px solid var(--gray2);
+}
+.amp-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--ed-current, var(--copper));
+  text-transform: uppercase;
+  margin-bottom: var(--s-2);
+  font-weight: 600;
+}
+.amp-title {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-variation-settings: "opsz" 72;
+  font-size: 1.4rem;
+  letter-spacing: -0.015em;
+  color: var(--navy);
+  margin: 0 0 var(--s-2) 0;
+  line-height: 1.1;
+}
+.amp-sub {
+  font-size: 0.85rem;
+  color: var(--gray4);
+  line-height: 1.55;
+  max-width: 78ch;
+  margin: 0;
+}
+.amp-sub strong { color: var(--navy); font-weight: 600; }
+
+/* Controls strip */
+.amp-controls {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-6);
+  background: var(--white);
+  border-bottom: 1px solid var(--gray1);
+}
+.amp-ctl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+.amp-ctl label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray3);
+  font-weight: 500;
+}
+.amp-select, .amp-ctl input[type="number"] {
+  height: 34px;
+  border: 1px solid var(--gray2);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--s-2);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  color: var(--ink);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.amp-ctl input[type="number"] {
+  text-align: right;
+  font-family: var(--font-mono);
+}
+.amp-select:focus, .amp-ctl input[type="number"]:focus {
+  border-color: var(--ed-current, var(--copper));
+}
+.amp-ctl-info { justify-content: flex-start; }
+.amp-pill {
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--s-3);
+  background: color-mix(in srgb, var(--ed-current) 12%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--ed-current) 30%, transparent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--navy);
+  font-weight: 500;
+}
+
+/* Table — header + rows */
+.amp-table {
+  padding: var(--s-1) var(--s-5) var(--s-4);
+}
+.amp-table-head, .amp-row-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) 76px 70px 70px 100px 22px;
+  gap: var(--s-3);
+  align-items: center;
+}
+.amp-table-head {
+  padding: var(--s-3) var(--s-3) var(--s-2);
+  border-bottom: 2px solid var(--gray2);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray3);
+  font-weight: 500;
+}
+.amp-h-va, .amp-h-amps, .amp-h-ocpd, .amp-h-cond {
+  text-align: right;
+}
+
+.amp-rows { display: flex; flex-direction: column; }
+.amp-row {
+  border-bottom: 1px solid var(--gray1);
+  transition: background 0.12s ease;
+}
+.amp-row:last-child { border-bottom: none; }
+.amp-row.expanded {
+  background: color-mix(in srgb, var(--ed-current) 5%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ed-current) 20%, transparent);
+}
+
+.amp-row-summary {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: var(--s-3);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  font-size: 0.85rem;
+  transition: background 0.12s ease;
+  border-radius: var(--radius-sm);
+}
+.amp-row-summary:hover {
+  background: color-mix(in srgb, var(--ed-current) 8%, transparent);
+}
+.amp-row-summary:focus-visible {
+  outline: 2px solid var(--ed-current);
+  outline-offset: -2px;
+}
+
+.amp-row-name { color: var(--text); font-weight: 500; }
+.amp-row-va, .amp-row-amps, .amp-row-ocpd, .amp-row-cond {
+  font-family: var(--font-mono);
+  text-align: right;
+  font-weight: 600;
+  color: var(--ink);
+}
+.amp-row-va { color: var(--navy); }
+.amp-row-cond { color: var(--ed-current, var(--copper)); font-weight: 700; }
+
+.amp-row-caret {
+  color: var(--gray3);
+  transition: transform 0.18s ease;
+  justify-self: center;
+}
+.amp-row.expanded .amp-row-caret { transform: rotate(180deg); color: var(--ed-current); }
+
+/* Detail — sizing chain */
+.amp-detail {
+  padding: var(--s-3) var(--s-5) var(--s-5);
+  animation: ampDetailIn 0.18s ease;
+}
+@keyframes ampDetailIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.amp-detail-formula {
+  font-size: 0.82rem;
+  color: var(--gray4);
+  font-style: italic;
+  padding: var(--s-2) var(--s-3);
+  margin-bottom: var(--s-4);
+  background: var(--cream);
+  border-left: 3px solid var(--ed-current);
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+}
+
+/* The sizing chain: visual pipeline */
+.amp-chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--s-2);
+  margin-bottom: var(--s-4);
+}
+.amp-chain-step {
+  flex: 1;
+  min-width: 130px;
+  background: var(--white);
+  border: 1px solid var(--gray2);
+  border-radius: var(--radius-sm);
+  padding: var(--s-2) var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.amp-chain-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray3);
+  font-weight: 500;
+}
+.amp-chain-val {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.amp-chain-ref {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gray3);
+  margin-top: 2px;
+}
+.amp-chain-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--ed-current);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0 var(--s-1);
+}
+
+/* Grounding sub-grid */
+.amp-grounding-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-3);
+}
+.amp-ground-card {
+  background: linear-gradient(135deg, var(--navy), var(--navy2));
+  color: var(--white);
+  border-radius: var(--radius-sm);
+  padding: var(--s-3) var(--s-4);
+  border-top: 3px solid var(--ed-current);
+}
+.amp-ground-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: var(--s-2);
+  font-weight: 500;
+}
+.amp-ground-val {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-variation-settings: "opsz" 72;
+  font-size: 1.5rem;
+  color: var(--ed-current);
+  line-height: 1;
+  margin-bottom: var(--s-1);
+}
+.amp-ground-ref {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: rgba(255,255,255,0.55);
+}
+
+/* Footer */
+.amp-footer {
+  padding: var(--s-3) var(--s-6) var(--s-4);
+  border-top: 1px solid var(--gray1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+.amp-filter-msg {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gray4);
+}
+.amp-coming-soon {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray4);
+  background: var(--cream);
+  padding: var(--s-1) var(--s-3);
+  border-radius: 99px;
+  border: 1px dashed var(--gray2);
+}
+
+@media (max-width: 1100px) {
+  .amp-controls { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .amp-controls { grid-template-columns: repeat(2, 1fr); }
+  .amp-table-head, .amp-row-summary {
+    grid-template-columns: 1fr 60px 22px;
+  }
+  .amp-h-amps, .amp-h-ocpd, .amp-h-cond,
+  .amp-row-amps, .amp-row-ocpd, .amp-row-cond { display: none; }
+  .amp-grounding-grid { grid-template-columns: 1fr; }
+}
+
+
+
+/* ═══ EDITION SWITCH EDUCATIONAL BANNER ════════════════════════════ */
+.lc-edition-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ed-current) 12%, var(--cream)), var(--cream));
+  border: 1px solid color-mix(in srgb, var(--ed-current) 35%, transparent);
+  border-left: 4px solid var(--ed-current);
+  border-radius: var(--radius-sm);
+  padding: var(--s-3) var(--s-4);
+  margin-bottom: var(--s-4);
+  animation: lc-banner-in 0.25s ease;
+}
+@keyframes lc-banner-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.lc-banner-icon { font-size: 1.4rem; line-height: 1; }
+.lc-banner-content { flex: 1; }
+.lc-banner-title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: var(--s-1);
+}
+.lc-banner-body {
+  font-size: 0.84rem;
+  color: var(--gray4);
+  line-height: 1.55;
+}
+.lc-banner-body strong { color: var(--ed-current); font-weight: 600; }
+.lc-banner-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--gray3);
+  cursor: pointer;
+  padding: 0 var(--s-2);
+  line-height: 1;
+  align-self: flex-start;
+}
+.lc-banner-close:hover { color: var(--navy); }
 
 /* Print stylesheet — Perry's 10 Tabs reference card */
 @media print {
@@ -2388,6 +2820,15 @@ a:hover { text-decoration: underline; }
         <!-- INPUT PANEL ────────────────────────────────────────── -->
         <div class="lc-inputs">
 
+          <div id="lc-edition-banner" class="lc-edition-banner" style="display:none">
+            <div class="lc-banner-icon">📋</div>
+            <div class="lc-banner-content">
+              <div class="lc-banner-title">Edition change updated your selection</div>
+              <div class="lc-banner-body" id="lc-banner-body">—</div>
+            </div>
+            <button class="lc-banner-close" onclick="document.getElementById('lc-edition-banner').style.display='none'" aria-label="Dismiss">×</button>
+          </div>
+
           <div class="lc-section">
             <div class="lc-section-head">
               <span class="lc-section-num">1</span>
@@ -2401,25 +2842,15 @@ a:hover { text-decoration: underline; }
                 <span class="lc-unit">units</span>
               </div>
               <div class="lc-field">
+                <label>Calc method</label>
+                <select id="lc-calcMethod" class="lc-select">
+                  <!-- Populated dynamically by populateLoadCalcDropdowns() -->
+                </select>
+              </div>
+              <div class="lc-field">
                 <label>Occupancy type</label>
                 <select id="lc-occupancy" class="lc-select">
-                  <option value="dwelling">Dwelling units</option>
-                  <option value="hotel">Hotels & motels</option>
-                  <option value="hospital">Hospitals</option>
-                  <option value="warehouse">Warehouses (storage)</option>
-                  <option value="office">Office buildings</option>
-                  <option value="bank">Banks</option>
-                  <option value="school">Schools</option>
-                  <option value="store">Stores</option>
-                  <option value="restaurant">Restaurants</option>
-                  <option value="church">Churches</option>
-                  <option value="club">Clubs</option>
-                  <option value="courtroom">Courtrooms</option>
-                  <option value="garage">Garages (commercial)</option>
-                  <option value="industrial">Industrial / loft buildings</option>
-                  <option value="lodge">Lodge rooms</option>
-                  <option value="armory">Armories & auditoriums</option>
-                  <option value="barber">Barber & beauty shops</option>
+                  <!-- Populated dynamically by populateLoadCalcDropdowns() -->
                 </select>
               </div>
               <div class="lc-field">
@@ -2533,6 +2964,24 @@ a:hover { text-decoration: underline; }
             </div>
           </div>
 
+          <div class="lc-section" id="lc-sec-evse" style="display:none">
+            <div class="lc-section-head">
+              <span class="lc-section-num">4b</span>
+              <span class="lc-section-title">EV Supply Equipment (EVSE)</span>
+              <span class="lc-section-ref">220.57 · NEC 2023+</span>
+            </div>
+            <div class="lc-section-body">
+              <div class="lc-appl">
+                <input type="number" id="lc-evseQty" value="0" min="0">
+                <input type="number" id="lc-evseVA" value="7200" min="0">
+                <span>EV charger</span><span class="lc-art">220.57</span>
+              </div>
+              <div class="lc-note lc-note-amber">
+                <strong>220.57 (new in NEC 2023):</strong> Minimum 7,200 VA per EVSE, or nameplate, whichever is greater. Calculator auto-applies the 7,200 VA floor.
+              </div>
+            </div>
+          </div>
+
           <div class="lc-section">
             <div class="lc-section-head">
               <span class="lc-section-num">5</span>
@@ -2639,6 +3088,73 @@ a:hover { text-decoration: underline; }
           <div class="lc-cond-grid" id="lc-cond-grid"></div>
 
           <div class="lc-refs" id="lc-refs"></div>
+
+          <details class="lc-logic-panel">
+            <summary>
+              <span class="lc-logic-summary-text">What changes with the edition?</span>
+              <svg width="12" height="12" viewBox="0 0 12 12" class="lc-logic-caret"><path d="M3 5 L6 8 L9 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="lc-logic-body" id="lc-logic-body"></div>
+          </details>
+
+
+          <div id="amp-section" class="amp-section">
+            <div class="amp-header">
+              <div>
+                <div class="amp-eyebrow">Service Sizing &amp; Ampacity</div>
+                <h3 class="amp-title">Conductor &amp; OCPD Sizing — 9 Scenarios</h3>
+                <p class="amp-sub">Auto-pulled from the Load Calculator above. Each scenario applies its own NEC demand factor to produce a calculated load, then chains through OCPD selection (Table <span id="amp-ref-ocpd">240.6(A)</span>), conductor sizing (Table <span id="amp-ref-ampacity">310.16</span>), and grounding (Tables <span id="amp-ref-gec">250.66</span> · <span id="amp-ref-egc">250.122</span>). <strong>Tap any row to see the full sizing chain.</strong></p>
+              </div>
+            </div>
+
+            <div class="amp-controls">
+              <div class="amp-ctl">
+                <label>Conductor</label>
+                <select id="amp-material" class="amp-select">
+                  <option value="cu">Copper</option>
+                  <option value="al">Aluminum / Cu-Clad Al</option>
+                </select>
+              </div>
+              <div class="amp-ctl">
+                <label>Temp column</label>
+                <select id="amp-tempCol" class="amp-select">
+                  <option value="60">60°C</option>
+                  <option value="75" selected>75°C</option>
+                  <option value="90">90°C</option>
+                </select>
+              </div>
+              <div class="amp-ctl">
+                <label>Ambient °C</label>
+                <input id="amp-ambient" type="number" value="30" min="10" max="85" step="1">
+              </div>
+              <div class="amp-ctl">
+                <label>Parallel sets</label>
+                <input id="amp-parallel" type="number" value="1" min="1" max="10" step="1">
+              </div>
+              <div class="amp-ctl amp-ctl-info">
+                <label>System</label>
+                <span id="amp-system-label" class="amp-pill">1-phase 240V</span>
+              </div>
+            </div>
+
+            <div class="amp-table">
+              <div class="amp-table-head">
+                <span class="amp-h-name">Scenario</span>
+                <span class="amp-h-va">VA</span>
+                <span class="amp-h-amps">Amps</span>
+                <span class="amp-h-ocpd">OCPD</span>
+                <span class="amp-h-cond">Conductor</span>
+                <span class="amp-h-caret"></span>
+              </div>
+              <div id="amp-rows" class="amp-rows"></div>
+            </div>
+
+            <div class="amp-footer">
+              <span id="amp-filter-msg" class="amp-filter-msg">Showing 9 of 9 applicable scenarios</span>
+              <span class="amp-coming-soon">⏳ "Adjusted Calculated Load" — coming in a future update once we lock the source rule with Perry</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -3192,12 +3708,506 @@ const COURSE_DATA = {
   },
 
   loadCalc: {
-    description: "Full Article 220 load calculator. Standard Method and Optional Method (220.82) run side-by-side. 17 occupancy types from Table 220.12. Edition-aware: 2026 swaps Art. 220 → Art. 120 and 3 VA/ft² → 2 VA/ft² automatically.",
-    /* Table 220.12 — General Lighting VA per sq ft (NEC 2017–2023) */
-    vaPerSqFt: {
-      dwelling:3, armory:1, bank:3.5, barber:3, church:1, club:2, courtroom:2,
-      garage:0.5, hospital:2, hotel:2, industrial:2, lodge:1.5, office:3.5,
-      restaurant:2, school:3, store:3, warehouse:0.25
+    description: "Full Article 220 load calculator with per-edition logic. Each NEC edition (2017, 2020, 2023, 2026) uses its own VA/ft² values, demand factors, article references, and behavioral rules. Standard Method and Optional Method run side-by-side; Standard Method works for any occupancy.",
+  },
+
+  /* ═══ EDITION_DATA ════════════════════════════════════════════════
+     Per-edition tables, references, and behavioral flags.
+     Sources: NEC 2017 NFPA 70, NEC 2020 NFPA 70 (Sec 220.12/220.53),
+     NEC 2023 NFPA 70 (Art 220 reorganization — 220.41/220.42/220.45/220.57),
+     NEC 2026 NFPA 70 (Art 220 → Art 120 renumbering, dwelling 3→2 VA/ft²).
+  ═══════════════════════════════════════════════════════════════════ */
+  EDITION_DATA: {
+    "2017": {
+      partRef: "Art. 220 Part III",
+      partRefLong: "Article 220 — Part III",
+      refs: {
+        dwellingLighting: "220.12",
+        nondwellingLighting: "220.12",
+        lightingDemand: "220.42",
+        smallApp: "220.52(A)",
+        laundry: "220.52(B)",
+        appl75: "220.53",
+        dryer: "220.54",
+        range: "220.55",
+        noncoincident: "220.60",
+        continuous: "220.18(A)",
+        evse: null,
+        optionalMethod: "220.82",
+        ampacity: "310.15(B)(16)",
+        ocpd: "240.6(A)",
+        gec: "250.66",
+        egc: "250.122",
+        ampacityTable: "310.15(B)(16)",
+        ampacityFreeAir: "310.15(B)(17)",
+        ambientCorrection: "310.15(B)(2)(a)",
+        bundleAdjustment: "310.15(B)(3)(a)",
+        bondingJumper: "250.102(C)(1)",
+        neutral: "220.61",
+        farmOther: "220.102",
+        farmTotal: "220.103",
+        schools: "220.86",
+        restaurant: "220.88",
+        existingDwelling: "220.83(A)",
+        existingDwellingAC: "220.83(B)",
+        dwellingService83pct: "310.15(B)(7)"
+      },
+      /* Table 220.12 — VA per sq ft. Used for ALL occupancies (dwellings get 3). */
+      vaPerSqFt: {
+        dwelling:3, armory:1, bank:3.5, barber:3, church:1, club:2, courtroom:2,
+        garage:0.5, hospital:2, hotel:2, industrial:2, lodge:1.5, office:3.5,
+        restaurant:2, school:3, store:3, warehouse:0.25
+      },
+      /* Behavioral flags */
+      flags: {
+        appl75AnyFastened: true,    // 220.53 applies to ALL fastened appliances regardless of HP/wattage
+        appl75MinHP: 0,
+        appl75MinW: 0,
+        appl75ExcludesEVSE: false,
+        hospitalLightingDemand: true,  // hospital still gets demand brackets
+        continuousIncludedInTable: false,
+        requireEVSE: false,
+        evseMinVA: 0
+      }
+    ,
+      occupancies: [
+        { id:"dwelling",       label:"Dwelling Units",                   va:3,    demand:"220.42", conf:"VERIFIED" },
+        { id:"armory",         label:"Armories & auditoriums",           va:1,    demand:"220.42", conf:"VERIFIED" },
+        { id:"assembly",       label:"Assembly halls & auditoriums",     va:1,    demand:"220.42", conf:"VERIFIED" },
+        { id:"bank",           label:"Banks",                            va:3.5,  demand:"220.42", conf:"VERIFIED" },
+        { id:"barber",         label:"Barber & beauty shops",            va:3,    demand:"220.42", conf:"VERIFIED" },
+        { id:"church",         label:"Churches",                         va:1,    demand:"220.42", conf:"VERIFIED" },
+        { id:"club",           label:"Clubs",                            va:2,    demand:"220.42", conf:"VERIFIED" },
+        { id:"courtroom",      label:"Courtrooms",                       va:2,    demand:"220.42", conf:"VERIFIED" },
+        { id:"garage",         label:"Garages-Commercial (storage)",     va:0.5,  demand:"220.42", conf:"VERIFIED" },
+        { id:"halls",          label:"Halls, corridors, closets, stairways", va:0.5, demand:"220.42", conf:"VERIFIED" },
+        { id:"hospital",       label:"Hospitals",                        va:2,    demand:"220.42", conf:"VERIFIED" },
+        { id:"hotel",          label:"Hotels & Motels",                  va:2,    demand:"220.42", conf:"VERIFIED" },
+        { id:"industrial",     label:"Industrial Commercial Loft Bldgs.",va:2,    demand:"220.42", conf:"VERIFIED" },
+        { id:"lodge",          label:"Lodge rooms",                      va:1.5,  demand:"220.42", conf:"VERIFIED" },
+        { id:"office",         label:"Office buildings",                 va:3.5,  demand:"220.42", conf:"VERIFIED" },
+        { id:"restaurant",     label:"Restaurants",                      va:2,    demand:"220.42", conf:"VERIFIED" },
+        { id:"school",         label:"Schools",                          va:3,    demand:"220.42", conf:"VERIFIED" },
+        { id:"store",          label:"Stores",                           va:3,    demand:"220.42", conf:"VERIFIED" },
+        { id:"storage",        label:"Storage spaces",                   va:0.25, demand:"220.42", conf:"VERIFIED" },
+        { id:"warehouse",      label:"Warehouses (storage)",             va:0.25, demand:"220.42", conf:"VERIFIED" }
+      ],
+      calcMethods: [
+        { id:"standard",      label:"Standard Method",                                  conf:"VERIFIED", isDefault:true, applicableTo:"all"       },
+        { id:"optional",      label:"Optional Method (Dwelling 220.82)",                conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingDwell", label:"Existing Dwelling Unit (220.83(A))",               conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingAC",    label:"Existing Dwelling + Add. AC & Heating (220.83(B))",conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"feederSchool",  label:"Feeder & Service for Schools (220.86)",            conf:"VERIFIED",                applicableTo:"school"    },
+        { id:"feederRest",    label:"Feeder & Service for New Restaurants (220.88)",    conf:"VERIFIED",                applicableTo:"restaurant"},
+        { id:"farmOther",     label:"Farm Loads other than Dwelling (220.102)",         conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"farmTotal",     label:"Total Farm Load (220.103)",                        conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"kitchen",       label:"Kitchen Equipment Non-Dwelling (220.56)",          conf:"VERIFIED",                applicableTo:"nondwelling"},
+        { id:"nondwellRecept",label:"Non-Dwelling Receptacle Loads (220.14)",           conf:"VERIFIED",                applicableTo:"nondwelling"}
+      ]
+    },
+    "2020": {
+      partRef: "Art. 220 Part III",
+      partRefLong: "Article 220 — Part III",
+      refs: {
+        dwellingLighting: "220.12",
+        nondwellingLighting: "220.12",
+        lightingDemand: "220.42",
+        smallApp: "220.52(A)",
+        laundry: "220.52(B)",
+        appl75: "220.53",
+        dryer: "220.54",
+        range: "220.55",
+        noncoincident: "220.60",
+        continuous: "220.18(A)",
+        evse: null,
+        optionalMethod: "220.82",
+        ampacity: "310.15(B)(16)",
+        ocpd: "240.6(A)",
+        gec: "250.66",
+        egc: "250.122",
+        ampacityTable: "310.15(B)(16)",
+        ampacityFreeAir: "310.15(B)(17)",
+        ambientCorrection: "310.15(B)(2)(a)",
+        bundleAdjustment: "310.15(B)(3)(a)",
+        bondingJumper: "250.102(C)(1)",
+        neutral: "220.61",
+        farmOther: "220.102",
+        farmTotal: "220.103",
+        schools: "220.86",
+        restaurant: "220.88",
+        existingDwelling: "220.83(A)",
+        existingDwellingAC: "220.83(B)",
+        dwellingService83pct: "310.12"
+      },
+      /* 2020 revised commercial VA/ft² values:
+         Office: 3.5 → 1.3 (major reduction per CMP2 / energy code alignment)
+         Bank:   3.5 → 1.3
+         School: 3   → 1.2 (note: some sources cite different values; using EC&M figures)
+         Hospitals: kept 2 but demand factors REMOVED (handled in flags)
+      */
+      vaPerSqFt: {
+        dwelling:3, armory:1, bank:1.3, barber:3, church:1, club:2, courtroom:2,
+        garage:0.5, hospital:2, hotel:2, industrial:2, lodge:1.5, office:1.3,
+        restaurant:2, school:1.2, store:3, warehouse:0.25
+      },
+      flags: {
+        appl75AnyFastened: false,   // 220.53 now requires ≥¼ HP OR ≥500W
+        appl75MinHP: 0.25,
+        appl75MinW: 500,
+        appl75ExcludesEVSE: false,
+        hospitalLightingDemand: false,  // 2020: hospital demand removed → 100%
+        continuousIncludedInTable: false,
+        requireEVSE: false,
+        evseMinVA: 0
+      }
+    ,
+      occupancies: [
+        { id:"dwelling",        label:"Dwelling Units",                   va:3,    demand:"220.42", conf:"VERIFIED", note:"Moved from Table 220.12 to 220.14(J) in 2020" },
+        { id:"gymnasium",       label:"Gymnasium-type (Armories, Auditoriums, Halls)", va:1.7, demand:"220.42", conf:"CITED",    note:"Replaces 2017 Armories & auditoriums; 1→1.7 VA/ft²" },
+        { id:"healthcareClinic",label:"Healthcare clinic",                va:1.6,  demand:"220.42", conf:"CITED" },
+        { id:"hospital",        label:"Hospitals",                        va:1.6,  demand:null,     conf:"CITED",    note:"2020: hospital demand factors removed; load at 100%" },
+        { id:"hotel",           label:"Hotels & Motels (incl. Lodge rooms)",va:1.7,demand:"220.42", conf:"CITED",    note:"Lodge rooms reclassified here; 2→1.7 VA/ft²" },
+        { id:"manufacturing",   label:"Manufacturing (incl. Industrial Loft)",va:1.7,demand:"220.42",conf:"CITED",   note:"Replaces 2017 Industrial Commercial Loft" },
+        { id:"office",          label:"Office buildings (incl. Banks)",   va:1.3,  demand:"220.42", conf:"VERIFIED", note:"Banks reclassified here; 3.5→1.3 VA/ft²" },
+        { id:"parkingGarage",   label:"Parking garage (storage)",         va:0.3,  demand:"220.42", conf:"CITED",    note:"Replaces 2017 Garages-Commercial; .5→.3" },
+        { id:"religious",       label:"Religious facilities (incl. Churches)",va:1.7,demand:"220.42",conf:"CITED",   note:"Churches reclassified; 1→1.7 VA/ft²" },
+        { id:"restaurant",      label:"Restaurants (incl. Clubs)",        va:1.4,  demand:"220.42", conf:"CITED",    note:"Clubs reclassified here" },
+        { id:"retail",          label:"Retail (incl. Stores, Barber & beauty)",va:1.9,demand:"220.42",conf:"CITED",  note:"Replaces Stores + Barber & beauty shops" },
+        { id:"school",          label:"Schools / Universities",           va:3,    demand:"220.42", conf:"VERIFIED", note:"Reduced to 1.5 in 2023" },
+        { id:"warehouse",       label:"Warehouses",                       va:0.5,  demand:"220.42", conf:"CITED",    note:"Raised from 0.25 in 2017" },
+        { id:"courtroom",       label:"Courthouses",                      va:1.4,  demand:"220.42", conf:"CITED",    note:"2→1.4 VA/ft²" }
+      ],
+      calcMethods: [
+        { id:"standard",      label:"Standard Method",                                  conf:"VERIFIED", isDefault:true, applicableTo:"all"       },
+        { id:"optional",      label:"Optional Method (Dwelling 220.82)",                conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingDwell", label:"Existing Dwelling Unit (220.83(A))",               conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingAC",    label:"Existing Dwelling + Add. AC & Heating (220.83(B))",conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"feederSchool",  label:"Feeder & Service for Schools (220.86)",            conf:"VERIFIED",                applicableTo:"school"    },
+        { id:"feederRest",    label:"Feeder & Service for New Restaurants (220.88)",    conf:"VERIFIED",                applicableTo:"restaurant"},
+        { id:"farmOther",     label:"Farm Loads other than Dwelling (220.102)",         conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"farmTotal",     label:"Total Farm Load (220.103)",                        conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"kitchen",       label:"Kitchen Equipment Non-Dwelling (220.56)",          conf:"VERIFIED",                applicableTo:"nondwelling"},
+        { id:"nondwellRecept",label:"Non-Dwelling Receptacle Loads (220.14)",           conf:"VERIFIED",                applicableTo:"nondwelling"}
+      ]
+    },
+    "2023": {
+      partRef: "Art. 220 Part III",
+      partRefLong: "Article 220 — Part III",
+      refs: {
+        dwellingLighting: "220.41",      // moved from 220.12 in 2023
+        nondwellingLighting: "220.42(A)", // moved from 220.12 in 2023
+        lightingDemand: "220.45",         // moved from 220.42 in 2023
+        smallApp: "220.52(A)",
+        laundry: "220.52(B)",
+        appl75: "220.53",
+        dryer: "220.54",
+        range: "220.55",
+        noncoincident: "220.60",
+        continuous: "220.11",             // moved from 220.18(A) in 2023
+        evse: "220.57",                   // NEW in 2023: EVSE minimum 7,200 VA
+        optionalMethod: "220.82",
+        ampacity: "310.16",               // table number changed
+        ocpd: "240.6(A)",
+        gec: "250.66",
+        egc: "250.122",
+        ampacityTable: "310.16",
+        ampacityFreeAir: "310.17",
+        ambientCorrection: "310.15(B)(1)",
+        bundleAdjustment: "310.15(C)(1)",
+        bondingJumper: "250.102(C)(1)",
+        neutral: "220.61",
+        farmOther: "220.102",
+        farmTotal: "220.103",
+        schools: "220.86",
+        restaurant: "220.88",
+        existingDwelling: "220.83(A)",
+        existingDwellingAC: "220.83(B)",
+        dwellingService83pct: "310.12"
+      },
+      /* 2023 commercial values shifted again. School/sports arenas: 1.5 VA/ft². */
+      vaPerSqFt: {
+        dwelling:3, armory:1, bank:1.3, barber:3, church:1, club:2, courtroom:2,
+        garage:0.5, hospital:2, hotel:2, industrial:2, lodge:1.5, office:1.3,
+        restaurant:2, school:1.5, store:3, warehouse:0.25
+      },
+      flags: {
+        appl75AnyFastened: false,
+        appl75MinHP: 0.25,
+        appl75MinW: 500,
+        appl75ExcludesEVSE: true,        // 2023: EVSE explicitly excluded from 220.53
+        hospitalLightingDemand: false,
+        continuousIncludedInTable: true,  // 2023 Table 220.42(A) note: 125% already included
+        requireEVSE: true,
+        evseMinVA: 7200                   // 220.57: min 7,200 VA or nameplate, whichever greater
+      }
+    ,
+      occupancies: [
+        { id:"dwelling",        label:"Dwelling Units (220.41)",          va:3,    demand:"220.45", conf:"VERIFIED", note:"Dwelling unit lighting moved to 220.41 in 2023" },
+        { id:"gymnasium",       label:"Gymnasium-type",                   va:1.7,  demand:"220.45", conf:"CITED" },
+        { id:"healthcareClinic",label:"Healthcare clinic",                va:1.6,  demand:"220.45", conf:"CITED" },
+        { id:"hospital",        label:"Hospitals (Patient Care 220.110)", va:1.6,  demand:null,     conf:"CITED",    note:"2023 added Table 220.110 for patient care spaces" },
+        { id:"hotel",           label:"Hotels & Motels",                  va:1.7,  demand:"220.45", conf:"CITED" },
+        { id:"manufacturing",   label:"Manufacturing",                    va:1.7,  demand:"220.45", conf:"CITED" },
+        { id:"office",          label:"Office buildings",                 va:1.3,  demand:"220.45", conf:"VERIFIED" },
+        { id:"parkingGarage",   label:"Parking garage",                   va:0.3,  demand:"220.45", conf:"CITED" },
+        { id:"religious",       label:"Religious facilities",             va:1.7,  demand:"220.45", conf:"CITED" },
+        { id:"restaurant",      label:"Restaurants",                      va:1.4,  demand:"220.45", conf:"CITED" },
+        { id:"retail",          label:"Retail",                           va:1.9,  demand:"220.45", conf:"CITED" },
+        { id:"school",          label:"Schools / Sports arenas",          va:1.5,  demand:"220.45", conf:"VERIFIED", note:"Reduced from 3 to 1.5 VA/ft² in 2023" },
+        { id:"warehouse",       label:"Warehouses",                       va:0.5,  demand:"220.45", conf:"CITED" },
+        { id:"courtroom",       label:"Courthouses",                      va:1.4,  demand:"220.45", conf:"CITED" },
+        { id:"marina",          label:"Marina/Dock",                      va:null, demand:"220.120",conf:"VERIFIED", note:"New in 2023 — Part VII of Article 220" }
+      ],
+      calcMethods: [
+        { id:"standard",      label:"Standard Method",                                  conf:"VERIFIED", isDefault:true, applicableTo:"all"       },
+        { id:"optional",      label:"Optional Method (Dwelling 220.82)",                conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingDwell", label:"Existing Dwelling Unit (220.83(A))",               conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingAC",    label:"Existing Dwelling + Add. AC & Heating (220.83(B))",conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"feederSchool",  label:"Feeder & Service for Schools (220.86)",            conf:"VERIFIED",                applicableTo:"school"    },
+        { id:"feederRest",    label:"Feeder & Service for New Restaurants (220.88)",    conf:"VERIFIED",                applicableTo:"restaurant"},
+        { id:"farmOther",     label:"Farm Loads other than Dwelling (220.102)",         conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"farmTotal",     label:"Total Farm Load (220.103)",                        conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"kitchen",       label:"Kitchen Equipment Non-Dwelling (220.56)",          conf:"VERIFIED",                applicableTo:"nondwelling"},
+        { id:"nondwellRecept",label:"Non-Dwelling Receptacle Loads (220.47)",           conf:"VERIFIED",                applicableTo:"nondwelling", note:"Moved from 220.14 to 220.47 in 2023" },
+        { id:"patientCare",   label:"Health Care Patient Care (220.110)",               conf:"VERIFIED",                applicableTo:"hospital", note:"New in 2023" },
+        { id:"marina",        label:"Marina/Dock Receptacle (220.120)",                 conf:"VERIFIED",                applicableTo:"marina", note:"New in 2023" }
+      ]
+    },
+    "2026": {
+      partRef: "Art. 120 Part III",
+      partRefLong: "Article 120 — Part III",
+      refs: {
+        /* All renumbered from 220.x → 120.x in 2026 */
+        dwellingLighting: "120.41",
+        nondwellingLighting: "120.42(A)",
+        lightingDemand: "120.45",
+        smallApp: "120.52(A)",
+        laundry: "120.52(B)",
+        appl75: "120.53",
+        dryer: "120.54",
+        range: "120.55",
+        noncoincident: "120.60",
+        continuous: "120.11",
+        evse: "120.57",
+        optionalMethod: "120.82",
+        ampacity: "310.16",
+        ocpd: "240.6(A)",
+        gec: "250.66",
+        egc: "250.122",
+        ampacityTable: "310.16",
+        ampacityFreeAir: "310.17",
+        ambientCorrection: "310.15(B)(1)",
+        bundleAdjustment: "310.15(C)(1)",
+        bondingJumper: "250.102(C)(1)",
+        neutral: "120.61",
+        farmOther: "120.102",
+        farmTotal: "120.103",
+        schools: "120.86",
+        restaurant: "120.88",
+        existingDwelling: "120.83(A)",
+        existingDwellingAC: "120.83(B)",
+        dwellingService83pct: "310.12"
+      },
+      /* 2026 dwelling drops to 2 VA/ft²; LED efficiency justified the reduction.
+         Commercial values mostly held from 2023 (note: 125% factor handling differs). */
+      vaPerSqFt: {
+        dwelling:2, armory:1, bank:1.3, barber:3, church:1, club:2, courtroom:2,
+        garage:0.5, hospital:2, hotel:2, industrial:2, lodge:1.5, office:1.3,
+        restaurant:2, school:1.5, store:3, warehouse:0.25
+      },
+      flags: {
+        appl75AnyFastened: false,
+        appl75MinHP: 0.25,
+        appl75MinW: 500,
+        appl75ExcludesEVSE: true,
+        hospitalLightingDemand: false,
+        continuousIncludedInTable: false,  // 2026: 125% note removed from table
+        requireEVSE: true,
+        evseMinVA: 7200
+      }
+    ,
+      occupancies: [
+        { id:"dwelling",        label:"Dwelling Units (120.41)",          va:2,    demand:"120.45", conf:"VERIFIED", note:"3→2 VA/ft²; relocated from 220.41 to 120.41 in 2026" },
+        { id:"gymnasium",       label:"Gymnasium-type",                   va:1.7,  demand:"120.45", conf:"CITED" },
+        { id:"healthcareClinic",label:"Healthcare clinic",                va:1.6,  demand:"120.45", conf:"CITED" },
+        { id:"hospital",        label:"Hospitals (Patient Care 120.110)", va:1.6,  demand:null,     conf:"CITED" },
+        { id:"hotel",           label:"Hotels & Motels",                  va:1.7,  demand:"120.45", conf:"CITED" },
+        { id:"manufacturing",   label:"Manufacturing",                    va:1.7,  demand:"120.45", conf:"CITED" },
+        { id:"office",          label:"Office buildings",                 va:1.3,  demand:"120.45", conf:"VERIFIED" },
+        { id:"parkingGarage",   label:"Parking garage",                   va:0.3,  demand:"120.45", conf:"CITED" },
+        { id:"religious",       label:"Religious facilities",             va:1.7,  demand:"120.45", conf:"CITED" },
+        { id:"restaurant",      label:"Restaurants",                      va:1.4,  demand:"120.45", conf:"CITED" },
+        { id:"retail",          label:"Retail",                           va:1.9,  demand:"120.45", conf:"CITED" },
+        { id:"school",          label:"Schools / Sports arenas",          va:1.5,  demand:"120.45", conf:"VERIFIED" },
+        { id:"warehouse",       label:"Warehouses",                       va:0.5,  demand:"120.45", conf:"CITED" },
+        { id:"courtroom",       label:"Courthouses",                      va:1.4,  demand:"120.45", conf:"CITED" },
+        { id:"marina",          label:"Marina/Dock",                      va:null, demand:"120.120",conf:"CITED" }
+      ],
+      calcMethods: [
+        { id:"standard",      label:"Standard Method",                                  conf:"VERIFIED", isDefault:true, applicableTo:"all"       },
+        { id:"optional",      label:"Optional Method (Dwelling 120.82)",                conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingDwell", label:"Existing Dwelling Unit (120.83(A))",               conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"existingAC",    label:"Existing Dwelling + Add. AC & Heating (120.83(B))",conf:"VERIFIED",                applicableTo:"dwelling"  },
+        { id:"feederSchool",  label:"Feeder & Service for Schools (120.86)",            conf:"VERIFIED",                applicableTo:"school"    },
+        { id:"feederRest",    label:"Feeder & Service for New Restaurants (120.88)",    conf:"VERIFIED",                applicableTo:"restaurant"},
+        { id:"farmOther",     label:"Farm Loads other than Dwelling (120.102)",         conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"farmTotal",     label:"Total Farm Load (120.103)",                        conf:"VERIFIED",                applicableTo:"any"       },
+        { id:"kitchen",       label:"Kitchen Equipment Non-Dwelling (120.56)",          conf:"VERIFIED",                applicableTo:"nondwelling"},
+        { id:"nondwellRecept",label:"Non-Dwelling Receptacle Loads (120.47)",           conf:"VERIFIED",                applicableTo:"nondwelling"},
+        { id:"patientCare",   label:"Health Care Patient Care (120.110)",               conf:"VERIFIED",                applicableTo:"hospital"  },
+        { id:"marina",        label:"Marina/Dock Receptacle (120.120)",                 conf:"VERIFIED",                applicableTo:"marina"    }
+      ]
+    }
+  },
+
+  /* ═══ AMPACITY_DATA — shared lookup tables ═══════════════════════
+     Most NEC ampacity tables (310.16, 250.66, 250.122, 240.6(A)) have
+     held values constant across NEC 2017–2026 — only the table numbers
+     changed. Values here apply to all editions.
+  ═══════════════════════════════════════════════════════════════════ */
+  AMPACITY_DATA: {
+    /* Table 240.6(A) — Standard ampere ratings */
+    breakers: [15,20,25,30,35,40,45,50,60,70,80,90,100,110,125,150,175,200,
+               225,250,300,350,400,450,500,600,700,800,1000,1200,1600,2000,
+               2500,3000,4000,5000,6000],
+
+    /* Table 310.16 (formerly 310.15(B)(16)) — Conductor ampacities
+       In raceway, cable, or direct burial, 0–2000V, 3 current-carrying
+       conductors, 30°C ambient. Format: [size_label, 60°C, 75°C, 90°C] */
+    ampacityCu: [
+      ['14',  15,  20,  25],
+      ['12',  20,  25,  30],
+      ['10',  30,  35,  40],
+      ['8',   40,  50,  55],
+      ['6',   55,  65,  75],
+      ['4',   70,  85,  95],
+      ['3',   85, 100, 115],
+      ['2',   95, 115, 130],
+      ['1',  110, 130, 145],
+      ['1/0',125, 150, 170],
+      ['2/0',145, 175, 195],
+      ['3/0',165, 200, 225],
+      ['4/0',195, 230, 260],
+      ['250',215, 255, 290],
+      ['300',240, 285, 320],
+      ['350',260, 310, 350],
+      ['400',280, 335, 380],
+      ['500',320, 380, 430],
+      ['600',355, 420, 475],
+      ['700',385, 460, 520],
+      ['750',400, 475, 535],
+      ['800',410, 490, 555],
+      ['900',435, 520, 585],
+      ['1000',455,545, 615]
+    ],
+    ampacityAl: [
+      ['12',  15,  20,  25],
+      ['10',  25,  30,  35],
+      ['8',   30,  40,  45],
+      ['6',   40,  50,  60],
+      ['4',   55,  65,  75],
+      ['3',   65,  75,  85],
+      ['2',   75,  90, 100],
+      ['1',   85, 100, 115],
+      ['1/0',100, 120, 135],
+      ['2/0',115, 135, 150],
+      ['3/0',130, 155, 175],
+      ['4/0',150, 180, 205],
+      ['250',170, 205, 230],
+      ['300',195, 230, 260],
+      ['350',210, 250, 280],
+      ['400',225, 270, 305],
+      ['500',260, 310, 350],
+      ['600',285, 340, 385],
+      ['700',315, 375, 425],
+      ['750',320, 385, 435],
+      ['800',330, 395, 445],
+      ['900',355, 425, 480],
+      ['1000',375,445, 500]
+    ],
+
+    /* Table 310.15(B)(2)(a) — Ambient temperature correction factors
+       For 30°C base. Format: { tempRange:[lo,hi], 60c, 75c, 90c } */
+    ambientCorrection: [
+      { range:[ 10, 15], c60: 1.29, c75: 1.20, c90: 1.15 },
+      { range:[ 16, 20], c60: 1.22, c75: 1.15, c90: 1.12 },
+      { range:[ 21, 25], c60: 1.15, c75: 1.11, c90: 1.08 },
+      { range:[ 26, 30], c60: 1.00, c75: 1.00, c90: 1.00 },
+      { range:[ 31, 35], c60: 0.91, c75: 0.94, c90: 0.96 },
+      { range:[ 36, 40], c60: 0.82, c75: 0.88, c90: 0.91 },
+      { range:[ 41, 45], c60: 0.71, c75: 0.82, c90: 0.87 },
+      { range:[ 46, 50], c60: 0.58, c75: 0.75, c90: 0.82 },
+      { range:[ 51, 55], c60: 0.41, c75: 0.67, c90: 0.76 },
+      { range:[ 56, 60], c60: 0,    c75: 0.58, c90: 0.71 },
+      { range:[ 61, 65], c60: 0,    c75: 0.47, c90: 0.65 },
+      { range:[ 66, 70], c60: 0,    c75: 0.33, c90: 0.58 },
+      { range:[ 71, 75], c60: 0,    c75: 0,    c90: 0.50 },
+      { range:[ 76, 80], c60: 0,    c75: 0,    c90: 0.41 },
+      { range:[ 81, 85], c60: 0,    c75: 0,    c90: 0.29 }
+    ],
+
+    /* Table 310.15(B)(3)(a) — Adjustment for >3 current-carrying conductors */
+    bundleAdjustment: [
+      { count:[4,6],   factor: 0.80 },
+      { count:[7,9],   factor: 0.70 },
+      { count:[10,20], factor: 0.50 },
+      { count:[21,30], factor: 0.45 },
+      { count:[31,40], factor: 0.40 },
+      { count:[41,999],factor: 0.35 }
+    ],
+
+    /* Table 250.66 — Grounding Electrode Conductor (Cu)
+       Index: size of largest service-entrance conductor. Values: GEC size */
+    gec_cu: [
+      { upTo:'2',   gec:'8'   },
+      { upTo:'1',   gec:'6'   },
+      { upTo:'4/0', gec:'4'   },
+      { upTo:'350', gec:'2'   },
+      { upTo:'600', gec:'1/0' },
+      { upTo:'1100',gec:'2/0' },
+      { upTo:'9999',gec:'3/0' }
+    ],
+    /* Table 250.66 — GEC (Al) */
+    gec_al: [
+      { upTo:'1/0', gec:'6'   },
+      { upTo:'2/0', gec:'4'   },
+      { upTo:'250', gec:'2'   },
+      { upTo:'500', gec:'1/0' },
+      { upTo:'900', gec:'2/0' },
+      { upTo:'1750',gec:'3/0' },
+      { upTo:'9999',gec:'4/0' }
+    ],
+
+    /* Table 250.122 — EGC sized to OCPD */
+    egc: [
+      { ocpdMax: 15,   cu:'14',  al:'12' },
+      { ocpdMax: 20,   cu:'12',  al:'10' },
+      { ocpdMax: 60,   cu:'10',  al:'8'  },
+      { ocpdMax: 100,  cu:'8',   al:'6'  },
+      { ocpdMax: 200,  cu:'6',   al:'4'  },
+      { ocpdMax: 300,  cu:'4',   al:'2'  },
+      { ocpdMax: 400,  cu:'3',   al:'1'  },
+      { ocpdMax: 500,  cu:'2',   al:'1/0'},
+      { ocpdMax: 600,  cu:'1',   al:'2/0'},
+      { ocpdMax: 800,  cu:'1/0', al:'3/0'},
+      { ocpdMax: 1000, cu:'2/0', al:'4/0'},
+      { ocpdMax: 1200, cu:'3/0', al:'250'},
+      { ocpdMax: 1600, cu:'4/0', al:'350'},
+      { ocpdMax: 2000, cu:'250', al:'400'},
+      { ocpdMax: 2500, cu:'350', al:'600'},
+      { ocpdMax: 3000, cu:'400', al:'600'},
+      { ocpdMax: 4000, cu:'500', al:'750'},
+      { ocpdMax: 5000, cu:'700', al:'1200'},
+      { ocpdMax: 6000, cu:'800', al:'1200'}
+    ],
+
+    /* Table 250.102(C)(1) — Supply-side bonding jumper (same as 250.66 logic) */
+    /* Uses same lookup as GEC */
+
+    /* Ampacity table options (per ampacity table selector) */
+    tables: {
+      '310.16':       { name: 'In raceway, cable, or buried (0–2000V)', primary: true },
+      '310.17':       { name: 'In free air, single-insulated (0–2000V)' }
     }
   },
 
@@ -3501,6 +4511,8 @@ function applyEdition(ed, animate) {
     }
   });
 
+  // Refresh per-edition dropdowns for new edition
+  if (typeof populateLoadCalcDropdowns === 'function') populateLoadCalcDropdowns();
   // If load calculator is mounted, re-run it for new edition
   if (typeof loadCalcRun === 'function') loadCalcRun();
 
@@ -4023,14 +5035,157 @@ function lcRow(r) {
   </div>`;
 }
 
-// MAIN CALCULATION
+
+// ═══ PER-EDITION DROPDOWN POPULATOR ═══════════════════════════════
+const LC_USER_PREFS = {
+  prevEdition: null,
+  byEdition: {}
+};
+const OCC_MAPPING = {
+  // 2017→newer: occupancies that no longer exist in 2020+ map per NEC 2020 footnotes
+  bank: 'office',
+  barber: 'retail',
+  store: 'retail',
+  club: 'restaurant',
+  garage: 'parkingGarage',
+  armory: 'gymnasium',
+  assembly: 'gymnasium',
+  halls: 'gymnasium',
+  lodge: 'hotel',
+  industrial: 'manufacturing',
+  church: 'religious',
+  storage: 'warehouse'
+};
+// Reverse mappings (newer→2017) for switching back
+const OCC_MAPPING_REVERSE = {
+  office: 'office',
+  retail: 'store',
+  restaurant: 'restaurant',
+  parkingGarage: 'garage',
+  gymnasium: 'armory',
+  hotel: 'hotel',
+  manufacturing: 'industrial',
+  religious: 'church'
+};
+
+function populateLoadCalcDropdowns() {
+  const ed = (state && state.edition) ? state.edition : '2017';
+  const E = COURSE_DATA.EDITION_DATA[ed];
+  if (!E || !E.occupancies) {
+    console.warn('populateLoadCalcDropdowns: no EDITION_DATA for', ed);
+    return;
+  }
+  const occSel  = document.getElementById('lc-occupancy');
+  const methSel = document.getElementById('lc-calcMethod');
+  if (!occSel || !methSel) return;
+
+  const prevOcc  = occSel.value;
+  const prevMeth = methSel.value;
+  const prevEd   = LC_USER_PREFS.prevEdition;
+
+  // Populate
+  occSel.innerHTML = E.occupancies.map(o =>
+    `<option value="${o.id}" data-conf="${o.conf}">${o.label}</option>`
+  ).join('');
+  methSel.innerHTML = E.calcMethods.map(m =>
+    `<option value="${m.id}" data-conf="${m.conf}" data-applicable="${m.applicableTo}">${m.label}</option>`
+  ).join('');
+
+  const newOccIds  = E.occupancies.map(o => o.id);
+  const newMethIds = E.calcMethods.map(m => m.id);
+
+  let restoredOcc = null, restoredMeth = null;
+  const bannerMessages = [];
+
+  // Try restoring from per-edition memory
+  const remembered = LC_USER_PREFS.byEdition[ed];
+  if (remembered) {
+    if (newOccIds.includes(remembered.occupancy))  restoredOcc  = remembered.occupancy;
+    if (newMethIds.includes(remembered.calcMethod)) restoredMeth = remembered.calcMethod;
+  }
+
+  // Carry over from previous selection if not in per-edition memory
+  if (!restoredOcc && prevOcc) {
+    if (newOccIds.includes(prevOcc)) {
+      restoredOcc = prevOcc;
+    } else if (prevEd && prevOcc) {
+      // Apply mapping (only meaningful 2017→newer)
+      let mapped = null;
+      if ((prevEd === '2017') && (ed !== '2017')) {
+        mapped = OCC_MAPPING[prevOcc];
+      } else if ((prevEd !== '2017') && (ed === '2017')) {
+        mapped = OCC_MAPPING_REVERSE[prevOcc];
+      }
+      if (mapped && newOccIds.includes(mapped)) {
+        restoredOcc = mapped;
+        const prevE = COURSE_DATA.EDITION_DATA[prevEd];
+        const fromLabel = (prevE.occupancies.find(o=>o.id===prevOcc)||{}).label || prevOcc;
+        const toLabel   = (E.occupancies.find(o=>o.id===restoredOcc)||{}).label || restoredOcc;
+        bannerMessages.push(
+          `<strong>${fromLabel}</strong> is no longer a separate occupancy in NEC ${ed}. It's now classified as <strong>${toLabel}</strong>. Your selection has been updated.`
+        );
+      }
+    }
+  }
+  if (!restoredMeth && prevMeth && newMethIds.includes(prevMeth)) restoredMeth = prevMeth;
+
+  // Defaults
+  if (!restoredOcc)  restoredOcc  = E.occupancies[0].id;
+  if (!restoredMeth) restoredMeth = (E.calcMethods.find(m=>m.isDefault) || E.calcMethods[0]).id;
+
+  occSel.value  = restoredOcc;
+  methSel.value = restoredMeth;
+
+  // Save selection per edition
+  LC_USER_PREFS.byEdition[ed] = { occupancy: restoredOcc, calcMethod: restoredMeth };
+  LC_USER_PREFS.prevEdition = ed;
+
+  // Show banner if applicable
+  const banner = document.getElementById('lc-edition-banner');
+  const bannerBody = document.getElementById('lc-banner-body');
+  if (banner && bannerBody) {
+    if (bannerMessages.length) {
+      bannerBody.innerHTML = bannerMessages.join('<br>');
+      banner.style.display = 'flex';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+}
+
+// Helper: lookup VA from per-edition occupancies array
+function getOccupancyVA(ed, occupancyId) {
+  const E = COURSE_DATA.EDITION_DATA[ed];
+  if (!E) return 3;
+  if (E.occupancies) {
+    const o = E.occupancies.find(o => o.id === occupancyId);
+    if (o && o.va !== null && o.va !== undefined) return o.va;
+  }
+  if (E.vaPerSqFt && E.vaPerSqFt[occupancyId] !== undefined) return E.vaPerSqFt[occupancyId];
+  return 3;
+}
+function getCurrentCalcMethod() {
+  const sel = document.getElementById('lc-calcMethod');
+  return sel ? sel.value : 'standard';
+}
+function getOccupancyMetadata(ed, occupancyId) {
+  const E = COURSE_DATA.EDITION_DATA[ed];
+  if (!E || !E.occupancies) return null;
+  return E.occupancies.find(o => o.id === occupancyId);
+}
+
+// MAIN CALCULATION — full per-edition logic
 function loadCalcRun() {
   if (!document.getElementById('lc-units')) return;  // not on this screen
 
-  // Edition awareness — 2026 changes the lighting VA/ft² for dwellings to 2 and relocates the article
+  // Resolve edition data — Single Source of Truth for the whole calc
   const ed = (state && state.edition) ? state.edition : '2017';
-  const is2026 = ed === '2026';
+  const E = COURSE_DATA.EDITION_DATA[ed] || COURSE_DATA.EDITION_DATA['2017'];
+  const R = E.refs;
+  const F = E.flags;
+  const vaTable = E.vaPerSqFt;
 
+  // Inputs
   const units      = Math.max(1, parseInt(lcV('lc-units')) || 1);
   const occupancy  = lcV('lc-occupancy');
   const sqftRaw    = parseFloat(lcV('lc-sqft')) || 0;
@@ -4039,11 +5194,10 @@ function loadCalcRun() {
   const voltageKey = lcV('lc-voltage');
   const isDwelling = occupancy === 'dwelling';
 
-  // STEP A: General lighting
-  // 2026: dwelling drops to 2 VA/ft²; everything else unchanged
-  let vaPerSqft = COURSE_DATA.loadCalc.vaPerSqFt[occupancy] || 3;
-  if (is2026 && occupancy === 'dwelling') vaPerSqft = 2;
+  // STEP A: General lighting — uses per-edition occupancies array via helper
+  const vaPerSqft   = getOccupancyVA(ed, occupancy);
   const lightingRaw = Math.round(sqft * vaPerSqft * units);
+  const lightingArt = isDwelling ? R.dwellingLighting : R.nondwellingLighting;
 
   // STEP B: Small appliance & laundry (dwelling only)
   let smallAppVA = 0, laundryVA = 0;
@@ -4054,9 +5208,17 @@ function loadCalcRun() {
     laundryVA  = laCircuits * 1500 * units;
   }
   const lightingSubtotal = lightingRaw + smallAppVA + laundryVA;
-  const lightingDemand   = lcApplyLightingDemand(occupancy, lightingSubtotal);
 
-  // STEP C: Fastened appliances
+  // STEP B2: Lighting demand factor — edition-aware behavior
+  // 2020+ removes hospital from demand brackets (treated 100%)
+  let lightingDemand;
+  if (occupancy === 'hospital' && !F.hospitalLightingDemand) {
+    lightingDemand = lightingSubtotal;  // 100% — no demand factor in 2020+
+  } else {
+    lightingDemand = lcApplyLightingDemand(occupancy, lightingSubtotal);
+  }
+
+  // STEP C: Fastened appliances — edition-aware 220.53 scope
   const apps = [
     { qty: lcInt('lc-disposalQty'),   va: lcNum('lc-disposalVA') },
     { qty: lcInt('lc-dishwasherQty'), va: lcNum('lc-dishwasherVA') },
@@ -4065,9 +5227,16 @@ function loadCalcRun() {
     { qty: lcInt('lc-vacuumQty'),     va: lcNum('lc-vacuumVA') },
     { qty: lcInt('lc-app6Qty'),       va: lcNum('lc-app6VA') }
   ];
-  const totalApplCount = apps.reduce((s,a) => s + a.qty, 0) * units;
-  const applianceRaw   = apps.reduce((s,a) => s + a.qty * a.va, 0) * units;
-  const apply75 = isDwelling && totalApplCount >= 4;
+  // 220.53 / 120.53 — count of QUALIFYING appliances
+  // 2017: all fastened count. 2020+: only ≥¼HP (~480W rule of thumb) or ≥500W
+  const qualifyingCount = apps.reduce((sum, a) => {
+    if (a.qty <= 0) return sum;
+    if (F.appl75AnyFastened) return sum + a.qty;
+    // Use 500 VA as the threshold proxy for "≥¼ HP or ≥500W"
+    return a.va >= F.appl75MinW ? sum + a.qty : sum;
+  }, 0) * units;
+  const applianceRaw = apps.reduce((s, a) => s + a.qty * a.va, 0) * units;
+  const apply75 = isDwelling && qualifyingCount >= 4;
   const applianceDemand = apply75 ? Math.round(applianceRaw * 0.75) : applianceRaw;
 
   // STEP D: Range
@@ -4076,14 +5245,23 @@ function loadCalcRun() {
   const rangeDemand = lcRangeDemand(rangeQty * units, rangeKW);
 
   // STEP E: Dryer
-  const dryerQty = lcInt('lc-dryerQty');
-  const dryerNP  = lcNum('lc-dryerVA');
+  const dryerQty  = lcInt('lc-dryerQty');
+  const dryerNP   = lcNum('lc-dryerVA');
   const dryerEach = Math.max(5000, dryerNP);
   const totalDryers = dryerQty * units;
-  const dryerDF  = lcDryerDF(totalDryers);
+  const dryerDF   = lcDryerDF(totalDryers);
   const dryerDemand = Math.round(dryerEach * totalDryers * dryerDF);
 
-  // STEP F: Heat vs cool
+  // STEP F: EVSE (2023+, new section 220.57 / 120.57 — min 7,200 VA or nameplate)
+  const evseQty = lcInt('lc-evseQty');
+  const evseNP  = lcNum('lc-evseVA');
+  let evseDemand = 0;
+  if (F.requireEVSE && evseQty > 0) {
+    const evseEach = Math.max(F.evseMinVA, evseNP);
+    evseDemand = evseEach * evseQty * units;
+  }
+
+  // STEP G: Heat vs cool
   const heatingVA   = lcNum('lc-heatingVA') * units;
   const coolingAmps = lcNum('lc-coolingAmps');
   const coolingV    = parseInt(lcV('lc-coolingVoltage')) || 240;
@@ -4094,16 +5272,20 @@ function loadCalcRun() {
   const hvacLoad     = Math.max(heatingTotal, coolingTotal);
   const hvacIsHeat   = heatingTotal >= coolingTotal;
 
-  // STEP G: Continuous & other
-  const continuousVA = lcNum('lc-continuousVA') * units;
-  const otherVA      = lcNum('lc-otherVA') * units;
+  // STEP H: Continuous & other
+  const continuousVA  = lcNum('lc-continuousVA') * units;
+  const otherVA       = lcNum('lc-otherVA') * units;
+  // 2023+: if the table already includes 125% (per Table 220.42(A) note),
+  // we skip the multiplier on the "general lighting" portion, but the
+  // continuous-load input here is still user-entered separately so it
+  // still gets 125% applied per 220.11 / 220.18(A).
   const continuousDemand = Math.round(continuousVA * 1.25);
 
-  // STEP H: Standard total
+  // STEP I: Standard total
   const stdTotal = lightingDemand + applianceDemand + rangeDemand
-                 + dryerDemand + hvacLoad + continuousDemand + otherVA;
+                 + dryerDemand + evseDemand + hvacLoad + continuousDemand + otherVA;
 
-  // STEP I: Service amps
+  // STEP J: Service amps
   let systemVolts, phases;
   if (voltageKey === '208_3ph')      { systemVolts = 208; phases = 3; }
   else if (voltageKey === '480_3ph') { systemVolts = 480; phases = 3; }
@@ -4112,13 +5294,14 @@ function loadCalcRun() {
   const divisor = phases === 3 ? systemVolts * Math.sqrt(3) : systemVolts;
   const serviceAmps = Math.ceil(stdTotal / divisor);
 
-  // STEP J: Optional method (dwelling only)
+  // STEP K: Optional method (dwelling only)
   let optTotal = null, optAmps = null, optGeneral2 = 0, optBase2 = 0;
   if (isDwelling) {
     optBase2 = lightingRaw + smallAppVA + laundryVA
              + applianceRaw
              + (rangeQty * units * lcNum('lc-rangeVA'))
              + (dryerQty * units * Math.max(5000, lcNum('lc-dryerVA')))
+             + (F.requireEVSE ? evseDemand : 0)
              + continuousVA + otherVA;
     optGeneral2 = optBase2 <= 10000
       ? optBase2
@@ -4127,7 +5310,7 @@ function loadCalcRun() {
     optAmps  = Math.ceil(optTotal / divisor);
   }
 
-  // STEP K: Conductor & OCPD
+  // STEP L: Conductor & OCPD
   const ocpd = lcOCPD(serviceAmps);
   const cond = lcConductor(serviceAmps);
   const gec  = lcGEC(cond.size);
@@ -4147,24 +5330,31 @@ function loadCalcRun() {
   lcEl('lc-heatSelected').textContent = hvacIsHeat ? '← USED (' + lcFmtVA(heatingTotal) + ')' : '';
   lcEl('lc-coolSelected').textContent = !hvacIsHeat ? '← USED (' + lcFmtVA(coolingTotal) + ')' : '';
 
-  // Edition-aware article reference for the table heading
-  const lightArt = is2026 ? '120.12' : '220.12';
-  const partIII  = is2026 ? 'Art. 120' : 'Art. 220';
+  // EVSE row visibility — only show input if edition supports it
+  const evseSection = lcEl('lc-sec-evse');
+  if (evseSection) evseSection.style.display = F.requireEVSE ? '' : 'none';
 
-  // Standard Method breakdown
+  // Standard Method breakdown (with per-edition refs)
+  const lightingDemandLabel = (occupancy === 'hospital' && !F.hospitalLightingDemand)
+    ? 'Lighting at 100% (no demand factor for hospitals in NEC ' + ed + ')'
+    : 'After demand factor (' + (isDwelling ? '3k @ 100% + 35%' : '100%') + ')';
   const stdRows = [
-    { desc: 'General lighting (' + vaPerSqft + ' VA/ft² × ' + Math.round(sqft) + ' ft²' + (units>1?' × '+units+' units':'') + ')', nec: lightArt, val: lightingRaw, type: 'raw' },
-    isDwelling ? { desc: 'Small appliance (' + Math.max(2,lcInt('lc-saCircuits')) + ' × 1,500)', nec: '220.52(A)', val: smallAppVA, type: 'raw' } : null,
-    isDwelling ? { desc: 'Laundry (' + Math.max(0,lcInt('lc-laCircuits')) + ' × 1,500)', nec: '220.52(B)', val: laundryVA, type: 'raw' } : null,
+    { desc: 'General lighting (' + vaPerSqft + ' VA/ft² × ' + Math.round(sqft) + ' ft²' + (units>1?' × '+units+' units':'') + ')', nec: lightingArt, val: lightingRaw, type: 'raw' },
+    isDwelling ? { desc: 'Small appliance (' + Math.max(2,lcInt('lc-saCircuits')) + ' × 1,500)', nec: R.smallApp, val: smallAppVA, type: 'raw' } : null,
+    isDwelling ? { desc: 'Laundry (' + Math.max(0,lcInt('lc-laCircuits')) + ' × 1,500)', nec: R.laundry, val: laundryVA, type: 'raw' } : null,
     { desc: 'Lighting subtotal', nec: '', val: lightingSubtotal, type: 'sub' },
-    { desc: 'After demand factor (' + (occupancy==='dwelling'?'3k @ 100% + 35%':'100%') + ')', nec: '220.42', val: lightingDemand, type: 'demand' },
-    { desc: apply75 ? 'Fastened appliances (' + totalApplCount + ' × 75%)' : 'Fastened appliances (' + totalApplCount + ')', nec: '220.53', val: applianceDemand, type: apply75 ? 'demand' : 'raw' },
-    rangeQty > 0 ? { desc: 'Range demand (' + (rangeQty*units) + ' × ' + rangeKW + 'kW, Col C)', nec: '220.55', val: rangeDemand, type: 'demand' } : null,
-    dryerQty > 0 ? { desc: 'Dryer demand (' + totalDryers + ' × ' + Math.round(dryerDF*100) + '% DF)', nec: '220.54', val: dryerDemand, type: 'demand' } : null,
-    { desc: (hvacIsHeat ? 'Heating' : 'Cooling') + ' (larger of heat/cool)', nec: '220.60', val: hvacLoad, type: 'raw' },
-    continuousVA > 0 ? { desc: 'Continuous loads (× 125%)', nec: '220.18(A)', val: continuousDemand, type: 'demand' } : null,
+    { desc: lightingDemandLabel, nec: R.lightingDemand, val: lightingDemand, type: 'demand' },
+    { desc: apply75
+        ? 'Fastened appliances (' + qualifyingCount + ' qualifying × 75%)'
+        : 'Fastened appliances (' + qualifyingCount + ' qualifying' + (F.appl75AnyFastened ? '' : ', ≥¼HP or ≥500W only') + ')',
+      nec: R.appl75, val: applianceDemand, type: apply75 ? 'demand' : 'raw' },
+    rangeQty > 0 ? { desc: 'Range demand (' + (rangeQty*units) + ' × ' + rangeKW + 'kW, Col C)', nec: R.range, val: rangeDemand, type: 'demand' } : null,
+    dryerQty > 0 ? { desc: 'Dryer demand (' + totalDryers + ' × ' + Math.round(dryerDF*100) + '% DF)', nec: R.dryer, val: dryerDemand, type: 'demand' } : null,
+    (F.requireEVSE && evseQty > 0) ? { desc: 'EVSE (' + (evseQty*units) + ' × min ' + F.evseMinVA.toLocaleString() + ' VA)', nec: R.evse, val: evseDemand, type: 'raw' } : null,
+    { desc: (hvacIsHeat ? 'Heating' : 'Cooling') + ' (larger of heat/cool)', nec: R.noncoincident, val: hvacLoad, type: 'raw' },
+    continuousVA > 0 ? { desc: 'Continuous loads (× 125%)', nec: R.continuous, val: continuousDemand, type: 'demand' } : null,
     otherVA > 0 ? { desc: 'Other loads', nec: '220.14', val: otherVA, type: 'raw' } : null,
-    { desc: 'TOTAL — STANDARD METHOD (' + phases + 'φ ' + systemVolts + 'V)', nec: partIII, val: stdTotal, type: 'total' },
+    { desc: 'TOTAL — STANDARD METHOD (' + phases + 'φ ' + systemVolts + 'V)', nec: E.partRef, val: stdTotal, type: 'total' },
     { desc: 'Service amps = ' + lcFmtVA(stdTotal) + ' ÷ ' + (phases===3 ? systemVolts + '×√3' : systemVolts), nec: '', val: serviceAmps + ' A', type: 'total-amps' }
   ];
   lcEl('lc-std-breakdown').innerHTML = stdRows.filter(Boolean).map(lcRow).join('');
@@ -4173,17 +5363,18 @@ function loadCalcRun() {
   if (isDwelling && optTotal !== null) {
     lcEl('lc-opt-card').style.display = '';
     const optRows = [
-      { desc: 'General + small appl + laundry (nameplate)', nec: '220.82(B)(1-2)', val: lightingRaw + smallAppVA + laundryVA, type: 'raw' },
-      { desc: 'Fastened appliances (nameplate, no 75%)', nec: '220.82(B)(3)', val: applianceRaw, type: 'raw' },
-      { desc: 'Range (nameplate, no 220.55)', nec: '220.82(B)(3)', val: rangeQty * units * lcNum('lc-rangeVA'), type: 'raw' },
-      { desc: 'Dryer (nameplate min 5kW, no 220.54)', nec: '220.82(B)(3)', val: dryerQty * units * Math.max(5000, lcNum('lc-dryerVA')), type: 'raw' },
+      { desc: 'General + small appl + laundry (nameplate)', nec: R.optionalMethod + '(B)(1-2)', val: lightingRaw + smallAppVA + laundryVA, type: 'raw' },
+      { desc: 'Fastened appliances (nameplate, no 75%)', nec: R.optionalMethod + '(B)(3)', val: applianceRaw, type: 'raw' },
+      { desc: 'Range (nameplate, no demand)', nec: R.optionalMethod + '(B)(3)', val: rangeQty * units * lcNum('lc-rangeVA'), type: 'raw' },
+      { desc: 'Dryer (nameplate min 5kW, no demand)', nec: R.optionalMethod + '(B)(3)', val: dryerQty * units * Math.max(5000, lcNum('lc-dryerVA')), type: 'raw' },
+      (F.requireEVSE && evseQty > 0) ? { desc: 'EVSE (nameplate)', nec: R.evse, val: evseDemand, type: 'raw' } : null,
       { desc: 'Subtotal before demand', nec: '', val: optBase2, type: 'sub' },
-      { desc: 'First 10 kVA @ 100% + remainder @ 40%', nec: '220.82(B)', val: optGeneral2, type: 'demand' },
-      { desc: 'Add ' + (hvacIsHeat ? 'heat' : 'cooling'), nec: '220.82(C)', val: hvacLoad, type: 'raw' },
-      { desc: 'TOTAL — OPTIONAL METHOD', nec: '220.82', val: optTotal, type: 'total' },
+      { desc: 'First 10 kVA @ 100% + remainder @ 40%', nec: R.optionalMethod + '(B)', val: optGeneral2, type: 'demand' },
+      { desc: 'Add ' + (hvacIsHeat ? 'heat' : 'cooling'), nec: R.optionalMethod + '(C)', val: hvacLoad, type: 'raw' },
+      { desc: 'TOTAL — OPTIONAL METHOD', nec: R.optionalMethod, val: optTotal, type: 'total' },
       { desc: 'Optional method amps', nec: '', val: optAmps + ' A', type: 'total-amps' }
     ];
-    lcEl('lc-opt-breakdown').innerHTML = optRows.map(lcRow).join('');
+    lcEl('lc-opt-breakdown').innerHTML = optRows.filter(Boolean).map(lcRow).join('');
   } else {
     lcEl('lc-opt-card').style.display = 'none';
   }
@@ -4194,48 +5385,104 @@ function loadCalcRun() {
       <div class="lc-cond-title">Service conductors</div>
       <div class="lc-cond-size">#${cond.size} AWG</div>
       <div class="lc-cond-detail">Cu THWN-2 · 75°C · ${cond.capacity} A</div>
-      <div class="lc-cond-nec">Table 310.15(B)(16) · ${serviceAmps} A load</div>
+      <div class="lc-cond-nec">Table ${R.ampacity} · ${serviceAmps} A load</div>
     </div>
     <div class="lc-cond-card">
       <div class="lc-cond-title">Min. OCPD</div>
       <div class="lc-cond-size">${ocpd} A</div>
       <div class="lc-cond-detail">Next standard size up</div>
-      <div class="lc-cond-nec">Table 240.6(A)</div>
+      <div class="lc-cond-nec">Table ${R.ocpd}</div>
     </div>
     <div class="lc-cond-card">
       <div class="lc-cond-title">GEC (Cu)</div>
       <div class="lc-cond-size">#${gec} AWG</div>
       <div class="lc-cond-detail">Based on service conductor</div>
-      <div class="lc-cond-nec">Table 250.66</div>
+      <div class="lc-cond-nec">Table ${R.gec}</div>
     </div>
     <div class="lc-cond-card">
       <div class="lc-cond-title">EGC (Cu)</div>
       <div class="lc-cond-size">#${egc} AWG</div>
       <div class="lc-cond-detail">Based on OCPD rating</div>
-      <div class="lc-cond-nec">Table 250.122 · ${ocpd} A</div>
+      <div class="lc-cond-nec">Table ${R.egc} · ${ocpd} A</div>
     </div>
   `;
 
-  // NEC refs strip
-  lcEl('lc-refs').innerHTML = `
-    <strong>NEC ${ed} articles applied:</strong>
-    ${lightArt} (lighting) · 220.42 (lighting demand) · 220.52 (small appl / laundry) ·
-    220.53 (appliance demand${apply75 ? ' — 75% applied' : ''}) ·
-    220.54 (dryer ${totalDryers > 0 ? '— ' + Math.round(dryerDF*100) + '%' : ''}) ·
-    220.55 (range — Col C) · 220.60 (noncoincident) · 220.18(A) (continuous × 125%) ·
-    ${isDwelling ? '220.82 (optional) · ' : ''}
-    240.6(A) (OCPD) · 250.66 (GEC) · 250.122 (EGC) · 310.15(B)(16) (ampacity)
-  `;
+  // NEC refs strip — list every article actually applied
+  const refsList = [
+    lightingArt + ' (' + (isDwelling ? 'dwelling lighting' : 'lighting load') + ')',
+    R.lightingDemand + ' (lighting demand)',
+    isDwelling ? R.smallApp.replace('(A)','') + ' (small appl/laundry)' : null,
+    R.appl75 + ' (appliance demand' + (apply75 ? ' — 75% applied' : '') + ')',
+    totalDryers > 0 ? R.dryer + ' (dryer — ' + Math.round(dryerDF*100) + '%)' : null,
+    rangeQty > 0 ? R.range + ' (range — Col C)' : null,
+    (F.requireEVSE && evseQty > 0) ? R.evse + ' (EVSE min ' + F.evseMinVA + ' VA)' : null,
+    R.noncoincident + ' (noncoincident)',
+    continuousVA > 0 ? R.continuous + ' (continuous × 125%)' : null,
+    isDwelling ? R.optionalMethod + ' (optional)' : null,
+    R.ocpd + ' (OCPD)',
+    R.gec + ' (GEC)',
+    R.egc + ' (EGC)',
+    R.ampacity + ' (ampacity)'
+  ].filter(Boolean);
+  lcEl('lc-refs').innerHTML = '<strong>NEC ' + ed + ' articles applied:</strong> ' + refsList.join(' · ');
 
   // Hide small-app section when not dwelling
   lcEl('lc-sec-smallapp').style.display = isDwelling ? '' : 'none';
 
-  // Edition badges
+  // Edition badges & art labels — driven by EDITION_DATA
+  const articleNum = ed === '2026' ? '120' : '220';
   if (lcEl('lc-edition-tag'))   lcEl('lc-edition-tag').textContent   = 'NEC ' + ed;
   if (lcEl('lc-edition-badge')) lcEl('lc-edition-badge').textContent = 'NEC ' + ed;
-  if (lcEl('lc-hero-art-badge')) lcEl('lc-hero-art-badge').textContent = is2026 ? 'Art. 120' : 'Art. 220';
-  if (lcEl('lc-eyebrow-art'))    lcEl('lc-eyebrow-art').textContent    = is2026 ? 'Article 120' : 'Article 220';
-  if (lcEl('lc-std-method-badge')) lcEl('lc-std-method-badge').textContent = is2026 ? 'Art. 120 Part III' : 'Art. 220 Part III';
+  if (lcEl('lc-hero-art-badge')) lcEl('lc-hero-art-badge').textContent = 'Art. ' + articleNum;
+  if (lcEl('lc-eyebrow-art'))    lcEl('lc-eyebrow-art').textContent    = 'Article ' + articleNum;
+  if (lcEl('lc-std-method-badge')) lcEl('lc-std-method-badge').textContent = E.partRef;
+
+  // Edition logic panel — explain what's edition-specific in this calc
+  const logicBody = lcEl('lc-logic-body');
+  if (logicBody) {
+    const editionsCompared = [
+      { ed:'2017', noun:'Article 220', dwellingVA:'3 VA/ft²', appl75:'all fastened',         hospital:'demand factors apply', lightDemand:'220.42', evse:'—'                    },
+      { ed:'2020', noun:'Article 220', dwellingVA:'3 VA/ft²', appl75:'≥¼HP or ≥500W',         hospital:'demand removed (100%)', lightDemand:'220.42', evse:'—'                  },
+      { ed:'2023', noun:'Article 220', dwellingVA:'3 VA/ft²', appl75:'≥¼HP or ≥500W, no EVSE', hospital:'demand removed (100%)', lightDemand:'220.45', evse:'220.57 · 7,200 VA min' },
+      { ed:'2026', noun:'Article 120', dwellingVA:'2 VA/ft²', appl75:'≥¼HP or ≥500W, no EVSE', hospital:'demand removed (100%)', lightDemand:'120.45', evse:'120.57 · 7,200 VA min' }
+    ];
+    logicBody.innerHTML = `
+      <p style="margin-bottom:0.75rem;font-size:0.85rem;color:var(--gray4);line-height:1.55">
+        This calculator implements <strong>per-edition logic</strong>. Every demand factor, table reference, and behavioral rule below is selected based on the NEC edition you've chosen. The current edition (<strong>NEC ${ed}</strong>) is highlighted.
+      </p>
+      <div class="lc-logic-table-wrap">
+        <table class="lc-logic-table">
+          <thead>
+            <tr>
+              <th>Edition</th>
+              <th>Chapter</th>
+              <th>Dwelling lighting</th>
+              <th>220.53 scope</th>
+              <th>Hospital demand</th>
+              <th>Lighting demand table</th>
+              <th>EVSE (220.57)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${editionsCompared.map(r => `
+              <tr class="${r.ed === ed ? 'active' : ''}">
+                <td><strong>NEC ${r.ed}</strong></td>
+                <td>${r.noun}</td>
+                <td>${r.dwellingVA}</td>
+                <td>${r.appl75}</td>
+                <td>${r.hospital}</td>
+                <td>${r.lightDemand}</td>
+                <td>${r.evse}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:0.75rem;font-size:0.78rem;color:var(--gray3);line-height:1.5">
+        Commercial occupancy VA/ft² values also shift between editions (e.g. office: 3.5 → 1.3, school: 3 → 1.5). Try changing the occupancy and edition to see the math update.
+      </p>
+    `;
+  }
 }
 
 // Bind every input to live recalc
@@ -4245,6 +5492,19 @@ function loadCalcBind() {
   root.querySelectorAll('input, select').forEach(elm => {
     elm.addEventListener('input', loadCalcRun);
     elm.addEventListener('change', loadCalcRun);
+  });
+  // Save occupancy + calc method per-edition for persistence across switches
+  const occSel  = document.getElementById('lc-occupancy');
+  const methSel = document.getElementById('lc-calcMethod');
+  if (occSel) occSel.addEventListener('change', () => {
+    const ed = state.edition || '2017';
+    if (!LC_USER_PREFS.byEdition[ed]) LC_USER_PREFS.byEdition[ed] = {};
+    LC_USER_PREFS.byEdition[ed].occupancy = occSel.value;
+  });
+  if (methSel) methSel.addEventListener('change', () => {
+    const ed = state.edition || '2017';
+    if (!LC_USER_PREFS.byEdition[ed]) LC_USER_PREFS.byEdition[ed] = {};
+    LC_USER_PREFS.byEdition[ed].calcMethod = methSel.value;
   });
   root.dataset.bound = 'true';
   loadCalcRun();
@@ -4260,6 +5520,462 @@ function clearWeight()     {
 
 
 // ═══ V2.0 NEW JS HANDLERS ═══════════════════════════════════════════
+
+
+
+// ═══ AMPACITY CALCULATOR ════════════════════════════════════════════
+// Reads from the Load Calculator's current state (auto-pull, single
+// source of truth) and computes 9 service-sizing scenarios.
+//
+// User controls (global to the section):
+//   - conductor material: 'cu' | 'al'
+//   - ambient temperature (°C)
+//   - temperature column: 60 | 75 | 90
+//   - ampacity table: '310.16' | '310.17'
+//   - parallel sets: 1+
+//
+// Per scenario: VA → Amps → OCPD → Conductor → GEC → EGC → Bonding jumper
+// Plus ambient correction and bundle adjustment factors
+
+const AMP_STATE = {
+  material: 'cu',
+  ambient: 30,
+  tempCol: 75,
+  table: '310.16',
+  parallelSets: 1,
+  expandedRows: new Set()
+};
+
+// ─── Lookup helpers ─────────────────────────────────────────────────
+function ampAmbientFactor(ambientC, tempCol) {
+  const A = COURSE_DATA.AMPACITY_DATA.ambientCorrection;
+  const row = A.find(r => ambientC >= r.range[0] && ambientC <= r.range[1]);
+  if (!row) return 1.0;
+  if (tempCol === 60) return row.c60;
+  if (tempCol === 75) return row.c75;
+  return row.c90;
+}
+
+function ampBundleFactor(numConductors) {
+  if (numConductors <= 3) return 1.0;
+  const A = COURSE_DATA.AMPACITY_DATA.bundleAdjustment;
+  const row = A.find(r => numConductors >= r.count[0] && numConductors <= r.count[1]);
+  return row ? row.factor : 0.35;
+}
+
+function ampGEC(condSize, material) {
+  const tbl = material === 'al'
+    ? COURSE_DATA.AMPACITY_DATA.gec_al
+    : COURSE_DATA.AMPACITY_DATA.gec_cu;
+  const sizeNum = condSizeOrdinal(condSize);
+  for (const row of tbl) {
+    if (sizeNum <= condSizeOrdinal(row.upTo)) return row.gec;
+  }
+  return tbl[tbl.length - 1].gec;
+}
+
+function ampEGC(ocpd, material) {
+  const tbl = COURSE_DATA.AMPACITY_DATA.egc;
+  for (const row of tbl) {
+    if (ocpd <= row.ocpdMax) return material === 'al' ? row.al : row.cu;
+  }
+  return material === 'al' ? '1200' : '800';
+}
+
+function ampBondingJumper(condSize, material) {
+  // Per 250.102(C)(1) — uses same logic as GEC for supply-side
+  return ampGEC(condSize, material);
+}
+
+// Convert conductor size string (#12, 1/0, 250) to a numeric ordinal for compare
+function condSizeOrdinal(sz) {
+  const ord = {
+    '14':1, '12':2, '10':3, '8':4, '6':5, '4':6, '3':7, '2':8, '1':9,
+    '1/0':10, '2/0':11, '3/0':12, '4/0':13,
+    '250':14, '300':15, '350':16, '400':17, '500':18, '600':19,
+    '700':20, '750':21, '800':22, '900':23, '1000':24, '1100':25, '1200':26,
+    '1750':27, '9999':99
+  };
+  return ord[String(sz)] ?? 0;
+}
+
+function ampOCPD(amps) {
+  return COURSE_DATA.AMPACITY_DATA.breakers.find(b => b >= amps) || amps;
+}
+
+// Find the smallest conductor in the selected material/temp column that meets the load
+function ampConductor(loadAmps, material, tempCol) {
+  const tbl = material === 'al'
+    ? COURSE_DATA.AMPACITY_DATA.ampacityAl
+    : COURSE_DATA.AMPACITY_DATA.ampacityCu;
+  const colIdx = tempCol === 60 ? 1 : tempCol === 75 ? 2 : 3;
+  for (const row of tbl) {
+    if (row[colIdx] >= loadAmps) {
+      return { size: row[0], capacity: row[colIdx] };
+    }
+  }
+  const last = tbl[tbl.length - 1];
+  return { size: last[0] + '+', capacity: last[colIdx] };
+}
+
+// ─── Phase/voltage parsing ──────────────────────────────────────────
+function ampSystem() {
+  const key = lcV('lc-voltage') || '120240_1ph';
+  if (key === '208_3ph')      return { volts: 208, phases: 3 };
+  if (key === '480_3ph')      return { volts: 480, phases: 3 };
+  if (key === '240_1ph')      return { volts: 240, phases: 1 };
+  return { volts: 240, phases: 1 };
+}
+
+function ampVAtoAmps(va, sys) {
+  const div = sys.phases === 3 ? sys.volts * Math.sqrt(3) : sys.volts;
+  return Math.ceil(va / div);
+}
+
+// ─── Scenario VA calculators ────────────────────────────────────────
+// Each returns { va, label, applicable, refKey, formula }
+// Standard and Optional are read from the existing Load Calc render
+
+function ampScenarioVA() {
+  // Read directly from the Load Calculator
+  const stdRow = document.querySelector('#lc-std-breakdown .lc-row.lc-row-total .lc-val');
+  const stdVA = stdRow ? parseAmpKpiNum(stdRow.textContent) : 0;
+  const optRow = document.querySelector('#lc-opt-breakdown .lc-row.lc-row-total .lc-val');
+  const optVA = optRow ? parseAmpKpiNum(optRow.textContent) : 0;
+
+  const ed = (state && state.edition) ? state.edition : '2017';
+  const occupancy = lcV('lc-occupancy');
+  const isDwelling = occupancy === 'dwelling';
+  const isSchool = occupancy === 'school';
+  const isRestaurant = occupancy === 'restaurant';
+
+  // For neutral: standard minus 30% of dryer+range (per 220.61(B))
+  const dryerRaw = lcInt('lc-dryerQty') * Math.max(5000, lcNum('lc-dryerVA')) * Math.max(1, lcInt('lc-units'));
+  const rangeRaw = lcInt('lc-rangeQty') * lcNum('lc-rangeVA') * Math.max(1, lcInt('lc-units'));
+  // Approximation: full 220.61 takes 70% of the demand-applied dryer+range, not raw.
+  // Reading the demand rows from the standard breakdown for accuracy:
+  const rows = Array.from(document.querySelectorAll('#lc-std-breakdown .lc-row'));
+  let dryerDemand = 0, rangeDemand = 0;
+  rows.forEach(r => {
+    const desc = r.querySelector('.lc-desc')?.textContent || '';
+    const valTxt = r.querySelector('.lc-val')?.textContent || '0';
+    if (desc.startsWith('Dryer demand')) dryerDemand = parseAmpKpiNum(valTxt);
+    if (desc.startsWith('Range demand')) rangeDemand = parseAmpKpiNum(valTxt);
+  });
+  const neutralReduction = Math.round((dryerDemand + rangeDemand) * 0.30);
+  const neutralVA = Math.max(0, stdVA - neutralReduction);
+
+  // Farm (other than dwelling) — Table 220.102
+  // 1st 60A @ 100% + next 60A @ 50% + remainder @ 25%
+  // Compare against: all loads simultaneously (100%) OR 125% × largest motor — use greater
+  // We approximate "largest motor" from the cooling amps input
+  const sys = ampSystem();
+  const stdAmpsRaw = stdVA > 0 ? Math.ceil(stdVA / (sys.phases === 3 ? sys.volts * Math.sqrt(3) : sys.volts)) : 0;
+  let farmOtherAmps;
+  if (stdAmpsRaw <= 60) {
+    farmOtherAmps = stdAmpsRaw;
+  } else if (stdAmpsRaw <= 120) {
+    farmOtherAmps = 60 + (stdAmpsRaw - 60) * 0.50;
+  } else {
+    farmOtherAmps = 60 + 60 * 0.50 + (stdAmpsRaw - 120) * 0.25;
+  }
+  const largestMotorAmps = (lcNum('lc-coolingAmps') || 0) * 1.25;
+  farmOtherAmps = Math.max(farmOtherAmps, largestMotorAmps);
+  const farmOtherVA = Math.round(farmOtherAmps * (sys.phases === 3 ? sys.volts * Math.sqrt(3) : sys.volts));
+
+  // Farm Total — Table 220.103
+  // Largest 100% + 2nd 75% + 3rd 65% + remainder 50%
+  // We approximate using std as the "largest", farmOther as the second
+  const loads = [stdVA, farmOtherVA].sort((a,b) => b-a);
+  const farmTotalVA = (loads[0] || 0) * 1.00 + (loads[1] || 0) * 0.75;
+
+  // Schools — Table 220.86
+  // First 3 VA/ft² @ 100%, next 17 VA/ft² @ 75%, remainder @ 25%
+  // (some printings cite "first 33,000 VA" as a fixed value; we use VA/ft² per Perry's sheet)
+  const sqftRaw = parseFloat(lcV('lc-sqft')) || 0;
+  const areaUnit = lcV('lc-areaUnit');
+  const sqft = areaUnit === 'sqm' ? sqftRaw * 10.764 : sqftRaw;
+  const schoolsVA = (() => {
+    if (sqft <= 0) return 0;
+    const vaPerSqFt = stdVA / sqft;
+    let demand = 0;
+    if (vaPerSqFt <= 3) {
+      demand = vaPerSqFt * sqft;
+    } else if (vaPerSqFt <= 20) {
+      demand = 3 * sqft + (vaPerSqFt - 3) * sqft * 0.75;
+    } else {
+      demand = 3 * sqft + 17 * sqft * 0.75 + (vaPerSqFt - 20) * sqft * 0.25;
+    }
+    return Math.round(demand);
+  })();
+
+  // Restaurant — Table 220.88, "not all electric" bracketed formulas
+  const stdKVA = stdVA / 1000;
+  const restaurantVA = (() => {
+    let demandKVA;
+    if (stdKVA <= 200) demandKVA = stdKVA * 1.00;
+    else if (stdKVA <= 325) demandKVA = 0.50 * (stdKVA - 200) + 200;
+    else if (stdKVA <= 800) demandKVA = 0.45 * (stdKVA - 325) + 262.5;
+    else demandKVA = 0.20 * (stdKVA - 800) + 476.3;
+    return Math.round(demandKVA * 1000);
+  })();
+
+  // Existing Dwelling 220.83(A) — first 8 kVA @ 100% + remainder @ 40%
+  const existingDwellingVA = (() => {
+    if (stdVA <= 8000) return stdVA;
+    return Math.round(8000 + (stdVA - 8000) * 0.40);
+  })();
+
+  // Existing Dwelling Additional AC&Heat 220.83(B) — AC + heat @ 100%, other 8kVA @ 100% + remainder 40%
+  const heatingVA = lcNum('lc-heatingVA');
+  const coolingAmps = lcNum('lc-coolingAmps');
+  const coolingV = parseInt(lcV('lc-coolingVoltage')) || 240;
+  const coolingVA = coolingAmps * coolingV;
+  const acHeatLoad = Math.max(heatingVA, coolingVA);
+  // "Other" load = std minus the hvac portion
+  const otherLoad = Math.max(0, stdVA - Math.max(heatingVA, coolingVA));
+  const otherDemand = otherLoad <= 8000 ? otherLoad : 8000 + (otherLoad - 8000) * 0.40;
+  const existingDwellingACVA = Math.round(acHeatLoad + otherDemand);
+
+  return [
+    { key:'standard', label:'Standard Calculated Load', va: stdVA,
+      applicable: true, refKey: 'partRef',
+      formula: 'Article 220 Part III standard method total' },
+    { key:'optional', label:'Optional Calculated Load', va: optVA,
+      applicable: isDwelling && optVA > 0, refKey: 'optionalMethod',
+      formula: '10kVA @ 100% + remainder @ 40% + larger of heat/cool' },
+    { key:'neutral',  label:'Neutral Calculated Load',  va: neutralVA,
+      applicable: isDwelling, refKey: 'neutral',
+      formula: 'Standard − 70% of (dryer + range) demand · Art. 220.61' },
+    { key:'farmOther', label:'Farm Load (other than dwelling)', va: farmOtherVA,
+      applicable: true, refKey: 'farmOther',
+      formula: '1st 60A @ 100% + next 60A @ 50% + remainder @ 25%; min 125% × largest motor · Table 220.102' },
+    { key:'farmTotal', label:'Total Farm Load', va: Math.round(farmTotalVA),
+      applicable: true, refKey: 'farmTotal',
+      formula: 'Largest @ 100% + 2nd @ 75% + 3rd @ 65% + remaining @ 50% · Table 220.103' },
+    { key:'schools', label:'Feeder & Service for Schools', va: schoolsVA,
+      applicable: true, refKey: 'schools',
+      formula: 'First 3 VA/ft² @ 100% + next 17 VA/ft² @ 75% + remainder @ 25% · Table 220.86' },
+    { key:'restaurant', label:'Feeder & Service for New Restaurant', va: restaurantVA,
+      applicable: true, refKey: 'restaurant',
+      formula: 'Bracketed kVA formula (non-all-electric column) · Table 220.88' },
+    { key:'existingDwelling', label:'Existing Dwelling', va: existingDwellingVA,
+      applicable: isDwelling, refKey: 'existingDwelling',
+      formula: 'First 8 kVA @ 100% + remainder @ 40% · Art. 220.83(A)' },
+    { key:'existingDwellingAC', label:'Existing Dwelling + Additional AC & Heating', va: existingDwellingACVA,
+      applicable: isDwelling, refKey: 'existingDwellingAC',
+      formula: 'AC + heat @ 100% + other 8 kVA @ 100% + other remainder @ 40% · Art. 220.83(B)' }
+  ];
+}
+
+function parseAmpKpiNum(text) {
+  if (!text) return 0;
+  // Handles "35.1k", "35,100", "147 A", etc.
+  const t = String(text).trim();
+  if (t.endsWith('k')) return parseFloat(t) * 1000;
+  if (t.endsWith('M')) return parseFloat(t) * 1000000;
+  return parseFloat(t.replace(/[,A\s]/g, '')) || 0;
+}
+
+// ─── Scenario sizing chain ──────────────────────────────────────────
+// Given a VA and the current AMP_STATE + edition, compute the full chain
+function ampSizeScenario(scenario) {
+  const sys = ampSystem();
+  const va = scenario.va;
+  const totalAmps = va > 0 ? ampVAtoAmps(va, sys) : 0;
+  const ampsPerSet = AMP_STATE.parallelSets > 1
+    ? Math.ceil(totalAmps / AMP_STATE.parallelSets)
+    : totalAmps;
+
+  // Ambient + bundle correction
+  const ambientF = ampAmbientFactor(AMP_STATE.ambient, AMP_STATE.tempCol);
+  const requiredAmps = ambientF > 0 ? Math.ceil(ampsPerSet / ambientF) : Infinity;
+
+  const ocpd = ampOCPD(totalAmps);
+  const cond = ampConductor(requiredAmps, AMP_STATE.material, AMP_STATE.tempCol);
+  const gec  = ampGEC(cond.size, AMP_STATE.material);
+  const egc  = ampEGC(ocpd, AMP_STATE.material);
+  const bonding = ampBondingJumper(cond.size, AMP_STATE.material);
+
+  return {
+    ...scenario,
+    sys, totalAmps, ampsPerSet, ambientF, requiredAmps,
+    ocpd, cond, gec, egc, bonding
+  };
+}
+
+// ─── Render ─────────────────────────────────────────────────────────
+function ampacityRun() {
+  if (!document.getElementById('lc-units')) return;
+  const grid = document.getElementById('amp-rows');
+  if (!grid) return;
+
+  const ed = (state && state.edition) ? state.edition : '2017';
+  const E = COURSE_DATA.EDITION_DATA[ed] || COURSE_DATA.EDITION_DATA['2017'];
+  const R = E.refs;
+  const sys = ampSystem();
+
+  // Update header info
+  const sysLabel = document.getElementById('amp-system-label');
+  if (sysLabel) sysLabel.textContent = sys.phases + '-phase ' + sys.volts + 'V';
+
+  // Compute all scenarios
+  const scenarios = ampScenarioVA();
+  const applicable = scenarios.filter(s => s.applicable);
+
+  // Hidden count message
+  const hiddenCount = scenarios.length - applicable.length;
+  const filterMsg = document.getElementById('amp-filter-msg');
+  if (filterMsg) {
+    filterMsg.textContent = hiddenCount > 0
+      ? 'Showing ' + applicable.length + ' of 9 scenarios (others don\'t apply to ' + lcV('lc-occupancy') + ')'
+      : 'Showing all 9 applicable scenarios';
+  }
+
+  // Build rows
+  grid.innerHTML = applicable.map(s => {
+    const sized = ampSizeScenario(s);
+    const ref = R[s.refKey] || E.partRef;
+    const isExpanded = AMP_STATE.expandedRows.has(s.key);
+    return renderAmpRow(sized, ref, isExpanded, ed, R);
+  }).join('');
+
+  // Bind row click handlers
+  grid.querySelectorAll('.amp-row-summary').forEach(el => {
+    el.addEventListener('click', () => {
+      const key = el.dataset.key;
+      if (AMP_STATE.expandedRows.has(key)) AMP_STATE.expandedRows.delete(key);
+      else AMP_STATE.expandedRows.add(key);
+      ampacityRun();
+    });
+  });
+}
+
+function renderAmpRow(s, ref, isExpanded, ed, R) {
+  const vaTxt = s.va > 0 ? lcFmtVA(s.va) : '—';
+  const ampsTxt = s.totalAmps > 0 ? s.totalAmps + ' A' : '—';
+  const ocpdTxt = s.ocpd > 0 ? s.ocpd + ' A' : '—';
+  const condTxt = s.cond.size ? '#' + s.cond.size : '—';
+  const matLabel = AMP_STATE.material === 'al' ? 'Al' : 'Cu';
+
+  let detailHtml = '';
+  if (isExpanded) {
+    // Build the sizing chain detail
+    const ambientNote = AMP_STATE.ambient === 30
+      ? '30°C (base — no correction)'
+      : AMP_STATE.ambient + '°C → correction factor ' + s.ambientF.toFixed(2);
+    detailHtml = `
+      <div class="amp-detail">
+        <div class="amp-detail-formula">${s.formula}</div>
+        <div class="amp-chain">
+          <div class="amp-chain-step">
+            <span class="amp-chain-label">VA</span>
+            <span class="amp-chain-val">${lcFmtVA(s.va)}</span>
+            <span class="amp-chain-ref">${ref}</span>
+          </div>
+          <div class="amp-chain-arrow">→</div>
+          <div class="amp-chain-step">
+            <span class="amp-chain-label">Amps</span>
+            <span class="amp-chain-val">${s.totalAmps} A</span>
+            <span class="amp-chain-ref">÷ ${s.sys.phases === 3 ? s.sys.volts + '×√3' : s.sys.volts}V</span>
+          </div>
+          ${AMP_STATE.parallelSets > 1 ? `
+          <div class="amp-chain-arrow">→</div>
+          <div class="amp-chain-step">
+            <span class="amp-chain-label">Per set</span>
+            <span class="amp-chain-val">${s.ampsPerSet} A</span>
+            <span class="amp-chain-ref">${AMP_STATE.parallelSets} parallel</span>
+          </div>` : ''}
+          ${s.ambientF !== 1 ? `
+          <div class="amp-chain-arrow">→</div>
+          <div class="amp-chain-step">
+            <span class="amp-chain-label">Required ampacity</span>
+            <span class="amp-chain-val">${s.requiredAmps} A</span>
+            <span class="amp-chain-ref">${ambientNote} · Table ${R.ambientCorrection}</span>
+          </div>` : ''}
+          <div class="amp-chain-arrow">→</div>
+          <div class="amp-chain-step">
+            <span class="amp-chain-label">Conductor</span>
+            <span class="amp-chain-val">#${s.cond.size} ${matLabel}</span>
+            <span class="amp-chain-ref">${s.cond.capacity} A @ ${AMP_STATE.tempCol}°C · Table ${R.ampacityTable}</span>
+          </div>
+          <div class="amp-chain-arrow">→</div>
+          <div class="amp-chain-step">
+            <span class="amp-chain-label">OCPD</span>
+            <span class="amp-chain-val">${s.ocpd} A</span>
+            <span class="amp-chain-ref">Next size up · Table ${R.ocpd}</span>
+          </div>
+        </div>
+
+        <div class="amp-grounding-grid">
+          <div class="amp-ground-card">
+            <div class="amp-ground-lbl">GEC (${matLabel})</div>
+            <div class="amp-ground-val">#${s.gec}</div>
+            <div class="amp-ground-ref">Table ${R.gec}</div>
+          </div>
+          <div class="amp-ground-card">
+            <div class="amp-ground-lbl">EGC (${matLabel})</div>
+            <div class="amp-ground-val">#${s.egc}</div>
+            <div class="amp-ground-ref">Table ${R.egc} · ${s.ocpd} A OCPD</div>
+          </div>
+          <div class="amp-ground-card">
+            <div class="amp-ground-lbl">Main Bonding Jumper</div>
+            <div class="amp-ground-val">#${s.bonding}</div>
+            <div class="amp-ground-ref">Table ${R.bondingJumper}</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="amp-row ${isExpanded ? 'expanded' : ''}">
+      <button class="amp-row-summary" data-key="${s.key}" aria-expanded="${isExpanded}">
+        <span class="amp-row-name">${s.label}</span>
+        <span class="amp-row-va">${vaTxt}</span>
+        <span class="amp-row-amps">${ampsTxt}</span>
+        <span class="amp-row-ocpd">${ocpdTxt}</span>
+        <span class="amp-row-cond">${condTxt} ${matLabel}</span>
+        <svg class="amp-row-caret" width="14" height="14" viewBox="0 0 14 14">
+          <path d="M3 5 L7 9 L11 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      ${detailHtml}
+    </div>`;
+}
+
+// ─── Bind controls and hook into Load Calc updates ──────────────────
+function ampacityBind() {
+  const sec = document.getElementById('amp-section');
+  if (!sec || sec.dataset.bound) return;
+
+  document.getElementById('amp-material').addEventListener('change', (e) => {
+    AMP_STATE.material = e.target.value;
+    ampacityRun();
+  });
+  document.getElementById('amp-ambient').addEventListener('input', (e) => {
+    AMP_STATE.ambient = Math.max(10, parseInt(e.target.value) || 30);
+    ampacityRun();
+  });
+  document.getElementById('amp-tempCol').addEventListener('change', (e) => {
+    AMP_STATE.tempCol = parseInt(e.target.value);
+    ampacityRun();
+  });
+  document.getElementById('amp-parallel').addEventListener('input', (e) => {
+    AMP_STATE.parallelSets = Math.max(1, parseInt(e.target.value) || 1);
+    ampacityRun();
+  });
+
+  sec.dataset.bound = 'true';
+}
+
+// Re-render ampacity whenever the load calc updates
+const _origLoadCalcRun = typeof loadCalcRun === 'function' ? loadCalcRun : null;
+if (_origLoadCalcRun) {
+  loadCalcRun = function() {
+    _origLoadCalcRun.apply(this, arguments);
+    ampacityRun();
+  };
+}
 
 // ─── Perry's Updated Rules ──────────────────────────────────────────
 function buildPerryRules() {
@@ -4605,7 +6321,10 @@ init = function() {
   buildTabsRef();
   showWorkedExamples(null, 'pipeFill');  // default load
   buildReadiness();
+  populateLoadCalcDropdowns();  // per-edition occupancies & calc methods
   loadCalcBind();  // live load calculator
+  ampacityBind();  // ampacity calc controls
+  ampacityRun();
   // Dashboard rebuilds on each view
 };
 
@@ -4614,7 +6333,7 @@ const _origShowScreen = showScreen;
 showScreen = function(id) {
   _origShowScreen(id);
   if (id === 'dashboard') buildDashboard();
-  if (id === 'weight') { loadCalcBind(); loadCalcRun(); }
+  if (id === 'weight') { populateLoadCalcDropdowns(); loadCalcBind(); loadCalcRun(); }
 };
 
 
