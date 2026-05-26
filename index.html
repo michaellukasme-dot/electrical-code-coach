@@ -115,7 +115,7 @@ button:focus-visible, .nav-item:focus-visible, .quiz-option:focus-visible {
 /* ── HEADER ────────────────────────────────────────────────────────── */
 #site-header {
   background: linear-gradient(180deg, var(--navy) 0%, var(--navy2) 100%);
-  border-bottom: 2px solid var(--copper);
+  border-bottom: 2px solid var(--ed-current);
   padding: 0 var(--s-6);
   display: flex;
   align-items: center;
@@ -129,13 +129,33 @@ button:focus-visible, .nav-item:focus-visible, .quiz-option:focus-visible {
   position: absolute;
   bottom: -2px; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--copper) 50%, transparent);
+  background: linear-gradient(90deg, transparent, var(--ed-current) 50%, transparent);
   opacity: 0.4;
 }
 .logo {
-  display: flex; align-items: center; gap: 0.75rem;
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: default;
 }
+.logo-wordmark { cursor: default; user-select: none; }
+.logo-wordmark .logo-text,
+.logo-wordmark .logo-sub { text-decoration: none !important; }
+.logo-bolt-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  line-height: 1;
+  color: inherit;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.logo-bolt-btn:hover { background: rgba(255,255,255,0.06); transform: scale(1.08); }
+.logo-bolt-btn:focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; }
+.logo-bolt-btn:active { transform: scale(0.96); }
+/* Backward compat: any remaining .logo-bolt span keeps its size */
 .logo-bolt { font-size: 1.6rem; }
 .logo-text {
   font-family: var(--font-head);
@@ -211,6 +231,16 @@ body.edition-2026 { --ed-current: var(--ed-2026); --ed-current-deep: var(--ed-20
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+}
+#sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 3px;
+  background: var(--ed-current);
+  opacity: 0.85;
+  transition: background 0.25s ease;
 }
 #sidebar::-webkit-scrollbar { width: 4px; }
 #sidebar::-webkit-scrollbar-track { background: transparent; }
@@ -240,8 +270,8 @@ body.edition-2026 { --ed-current: var(--ed-2026); --ed-current-deep: var(--ed-20
   line-height: 1.3;
   text-decoration: none;
 }
-.nav-item:hover { background: rgba(245,168,0,0.08); color: var(--white); border-left-color: rgba(245,168,0,0.3); }
-.nav-item.active { background: rgba(245,168,0,0.12); color: var(--gold); border-left-color: var(--gold); font-weight: 600; }
+.nav-item:hover { background: color-mix(in srgb, var(--ed-current) 12%, transparent); color: var(--white); border-left-color: color-mix(in srgb, var(--ed-current) 50%, transparent); }
+.nav-item.active { background: color-mix(in srgb, var(--ed-current) 18%, transparent); color: var(--ed-current); border-left-color: var(--ed-current); font-weight: 600; }
 .nav-item.bonus-item.active { border-left-color: var(--steel); color: #7bb8f0; }
 .nav-item.bonus-item:hover { border-left-color: rgba(46,117,182,0.5); }
 .nav-num {
@@ -2031,6 +2061,141 @@ a:hover { text-decoration: underline; }
 .lc-refs strong { color: var(--navy); font-weight: 600; }
 
 
+
+
+/* ═══ EDITION DROPDOWN PICKER (header) ═══════════════════════════ */
+.ed-picker { position: relative; }
+.ed-picker-trigger {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.42rem 0.7rem 0.42rem 0.6rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  min-width: 132px;
+}
+.ed-picker-trigger:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.22); }
+.ed-picker-trigger:focus-visible { outline: 2px solid var(--ed-current); outline-offset: 2px; }
+.ed-picker-trigger[aria-expanded="true"] { background: rgba(255,255,255,0.12); border-color: var(--ed-current); }
+.ed-picker-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ed-current, var(--gray3));
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.08);
+  transition: background 0.2s ease;
+}
+.ed-picker-label {
+  flex: 1;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.92);
+  white-space: nowrap;
+}
+.ed-picker-caret {
+  color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+.ed-picker-trigger[aria-expanded="true"] .ed-picker-caret { transform: rotate(180deg); }
+
+.ed-picker-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 280px;
+  background: var(--white);
+  border: 1px solid var(--gray2);
+  border-radius: 10px;
+  box-shadow: 0 12px 36px rgba(15,31,61,0.22), 0 2px 6px rgba(15,31,61,0.08);
+  padding: 6px;
+  z-index: 200;
+  display: none;
+  overflow: hidden;
+  animation: edMenuIn 0.12s ease;
+}
+@keyframes edMenuIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ed-picker-menu.open { display: block; }
+.ed-option {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.12s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.ed-option:hover { background: var(--cream); }
+.ed-option.selected { background: var(--ed-row-tint); }
+.ed-option-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ed-row-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ed-row-color) 25%, transparent);
+}
+.ed-option-body { line-height: 1.25; }
+.ed-option-year {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 48;
+}
+.ed-option-tag {
+  font-size: 0.72rem;
+  color: var(--gray4);
+  margin-top: 1px;
+}
+.ed-option-check {
+  color: var(--ed-row-color);
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0;
+}
+.ed-option.selected .ed-option-check { opacity: 1; }
+.ed-option[data-ed="2017"] { --ed-row-color: var(--ed-2017); --ed-row-tint: var(--ed-2017-tint); }
+.ed-option[data-ed="2020"] { --ed-row-color: var(--ed-2020); --ed-row-tint: var(--ed-2020-tint); }
+.ed-option[data-ed="2023"] { --ed-row-color: var(--ed-2023); --ed-row-tint: var(--ed-2023-tint); }
+.ed-option[data-ed="2026"] { --ed-row-color: var(--ed-2026); --ed-row-tint: var(--ed-2026-tint); }
+.ed-option-new {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  background: var(--ed-2026);
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .ed-picker-trigger { min-width: 110px; padding: 0.4rem 0.55rem; }
+  .ed-picker-label { font-size: 0.72rem; }
+  .logo-sub { display: none; }  /* keep the brand wordmark clean on small screens */
+}
+
 /* Print stylesheet — Perry's 10 Tabs reference card */
 @media print {
   body { background: white; }
@@ -2049,15 +2214,24 @@ a:hover { text-decoration: underline; }
 <body>
 
 <header id="site-header">
-  <a class="logo" href="#" onclick="showScreen('welcome')">
-    <span class="logo-bolt">⚡</span>
-    <div>
+  <div class="logo">
+    <button class="logo-bolt-btn" onclick="showScreen('welcome')" aria-label="Home" title="Home">⚡</button>
+    <div class="logo-wordmark">
       <div class="logo-text">ELECTRICAL <span>CODE COACH</span></div>
       <div class="logo-sub">National Electrical Code · Exam Prep</div>
     </div>
-  </a>
+  </div>
   <div class="header-right">
-    <span class="edition-badge edition-badge--empty" id="header-edition-badge">Select edition</span>
+    <div class="ed-picker" id="ed-picker">
+      <button type="button" class="ed-picker-trigger" id="ed-picker-trigger" aria-haspopup="listbox" aria-expanded="false">
+        <span class="ed-picker-dot" id="ed-picker-dot"></span>
+        <span class="ed-picker-label" id="ed-picker-label">Select edition</span>
+        <svg class="ed-picker-caret" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+          <path d="M2 4 L5 7 L8 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="ed-picker-menu" id="ed-picker-menu" role="listbox" aria-label="Choose NEC edition"></div>
+    </div>
   </div>
 </header>
 
@@ -2448,7 +2622,7 @@ a:hover { text-decoration: underline; }
           <div class="lc-card">
             <div class="lc-card-head">
               <span class="lc-card-title">Standard Method</span>
-              <span class="lc-card-badge">Art. 220 Part III</span>
+              <span class="lc-card-badge" id="lc-std-method-badge">Art. 220 Part III</span>
             </div>
             <div class="lc-card-body" id="lc-std-breakdown"></div>
           </div>
@@ -2520,7 +2694,7 @@ a:hover { text-decoration: underline; }
 
     <footer id="main-footer">
       <span>⚡ Electrical Code Coach · Curriculum by <a href="https://electricalcodecoach.com" target="_blank">Perry</a> · Used with permission</span>
-      <span style="font-family:var(--font-mono);font-size:0.7rem">v2.0-beta · NEC 2017</span>
+      <span style="font-family:var(--font-mono);font-size:0.7rem">v2.0-beta · <span id="footer-edition-label">NEC 2017</span></span>
     </footer>
   </main>
 </div>
@@ -3298,14 +3472,18 @@ function applyEdition(ed, animate) {
     if (c.dataset.ed === ed) c.classList.add('selected');
   });
 
-  // Header badge — single, fixed-width, edition-tinted
-  const badge = document.getElementById('header-edition-badge');
-  badge.textContent = 'NEC ' + ed;
-  badge.className = 'edition-badge edition-tint-' + ed;
+  // Header badge has been replaced by the dropdown picker.
+  // syncEditionDropdown (below, end of applyEdition) updates the dropdown trigger.
+  const oldBadge = document.getElementById('header-edition-badge');  // legacy support
+  if (oldBadge) { oldBadge.textContent = 'NEC ' + ed; oldBadge.className = 'edition-badge edition-tint-' + ed; }
 
   // Hero edition label (in the H1 accent line)
   const heroLabel = document.getElementById('hero-edition-label');
   if (heroLabel) heroLabel.textContent = 'NEC ' + ed;
+
+  // Footer edition label
+  const footerLabel = document.getElementById('footer-edition-label');
+  if (footerLabel) footerLabel.textContent = 'NEC ' + ed;
 
   // Load Calculator edition badges (new IDs; guarded if not yet mounted)
   const lcTag   = document.getElementById('lc-edition-tag');
@@ -3325,6 +3503,9 @@ function applyEdition(ed, animate) {
 
   // If load calculator is mounted, re-run it for new edition
   if (typeof loadCalcRun === 'function') loadCalcRun();
+
+  // Sync the header dropdown
+  if (typeof syncEditionDropdown === 'function') syncEditionDropdown(ed);
 
   if (animate) showScreen('welcome');
 }
@@ -4054,6 +4235,7 @@ function loadCalcRun() {
   if (lcEl('lc-edition-badge')) lcEl('lc-edition-badge').textContent = 'NEC ' + ed;
   if (lcEl('lc-hero-art-badge')) lcEl('lc-hero-art-badge').textContent = is2026 ? 'Art. 120' : 'Art. 220';
   if (lcEl('lc-eyebrow-art'))    lcEl('lc-eyebrow-art').textContent    = is2026 ? 'Article 120' : 'Article 220';
+  if (lcEl('lc-std-method-badge')) lcEl('lc-std-method-badge').textContent = is2026 ? 'Art. 120 Part III' : 'Art. 220 Part III';
 }
 
 // Bind every input to live recalc
@@ -4417,6 +4599,7 @@ showQuizResults = function(weekNum, total) {
 const _origInit = init;
 init = function() {
   _origInit();
+  buildEditionDropdown();
   buildCalcScreens();
   buildPerryRules();
   buildTabsRef();
@@ -4434,6 +4617,67 @@ showScreen = function(id) {
   if (id === 'weight') { loadCalcBind(); loadCalcRun(); }
 };
 
+
+
+// ═══ EDITION DROPDOWN PICKER ═════════════════════════════════════
+function buildEditionDropdown() {
+  const menu = document.getElementById('ed-picker-menu');
+  if (!menu) return;
+  menu.innerHTML = COURSE_DATA.meta.editions.map(ed => {
+    const info = COURSE_DATA.editionNotes[ed];
+    const isNew = ed === '2026';
+    return `<button type="button" class="ed-option" role="option" data-ed="${ed}" onclick="selectEdition('${ed}'); closeEditionDropdown();">
+      <span class="ed-option-dot"></span>
+      <span class="ed-option-body">
+        <div class="ed-option-year">NEC ${ed}${isNew ? '<span class="ed-option-new">NEW</span>' : ''}</div>
+        <div class="ed-option-tag">${info.tag}</div>
+      </span>
+      <span class="ed-option-check">✓</span>
+    </button>`;
+  }).join('');
+
+  const trigger = document.getElementById('ed-picker-trigger');
+  trigger.onclick = (e) => {
+    e.stopPropagation();
+    const open = menu.classList.contains('open');
+    if (open) closeEditionDropdown();
+    else openEditionDropdown();
+  };
+
+  // Click outside / Escape to close
+  document.addEventListener('click', (e) => {
+    const picker = document.getElementById('ed-picker');
+    if (picker && !picker.contains(e.target)) closeEditionDropdown();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeEditionDropdown();
+  });
+}
+
+function openEditionDropdown() {
+  const menu = document.getElementById('ed-picker-menu');
+  const trigger = document.getElementById('ed-picker-trigger');
+  if (!menu || !trigger) return;
+  menu.classList.add('open');
+  trigger.setAttribute('aria-expanded', 'true');
+}
+function closeEditionDropdown() {
+  const menu = document.getElementById('ed-picker-menu');
+  const trigger = document.getElementById('ed-picker-trigger');
+  if (!menu || !trigger) return;
+  menu.classList.remove('open');
+  trigger.setAttribute('aria-expanded', 'false');
+}
+
+function syncEditionDropdown(ed) {
+  // Trigger label
+  const lbl = document.getElementById('ed-picker-label');
+  if (lbl) lbl.textContent = 'NEC ' + ed;
+  // Selected state
+  document.querySelectorAll('.ed-option').forEach(o => {
+    o.classList.toggle('selected', o.dataset.ed === ed);
+  });
+}
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
 init();
