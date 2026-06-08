@@ -1,5 +1,7 @@
-/* service-worker.js — Electrical Code Coach · PWA SURFACE */
-const CACHE='ecc-v1';
+/* service-worker.js — Electrical Code Coach · PWA SURFACE
+   v2.0.9 deploy: cache bumped ecc-v1 -> ecc-v2 to push the Jake->Perry copy fix
+   to installed apps + returning browsers (cache-first shell otherwise serves stale). */
+const CACHE='ecc-v2';
 const SHELL=['./','./index.html','./manifest.json','./apple-touch-icon.png',
   './icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));});
