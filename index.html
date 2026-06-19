@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2.0.10 2026-06-18 :: ENGINE v0.5 (Sader GEC safety fix) — vendored AA-CALC-CORE v0.5 (sha 53d28480…fe; 54/54 verify). Table 250.66 GEC corrected (13 sizes); material-aware Cu/Al; 250.66(A/B/C) electrode caps advisory (footnoted, not auto-applied). Ampacity amp* vendored where core-backed (Cu+Al parity); ampEGC-Al + bonding-jumper retained (core egc is Cu-only by design). -->
+<!-- v2.0.11 2026-06-18 :: obsolete spreadsheet name removed everywhere — course content now "Amp Academy Load Calculator"; engine re-vendored from scrubbed AA-CALC-CORE v0.5 (sha 7165e1a8…; 54/54). SW cache ecc-v4. -->
 <!-- ECC build :: engine-vendor v0.5 2026-06-18 :: lc* + amp* leaves delegate to AA-CALC-CORE v0.5 (sha 53d28480…fe; 54/54) + range/dryer 0-nameplate guard + laundry label. -->
 <html lang="en">
 <head>
@@ -862,7 +862,7 @@ body.edition-2026 { --ed-current: var(--ed-2026); --ed-current-deep: var(--ed-20
 }
 .vocab-def { font-size: 0.83rem; color: var(--gray3); line-height: 1.5; }
 
-/* ── THE WEIGHT ────────────────────────────────────────────────────── */
+/* ── the Amp Academy Load Calculator ────────────────────────────────────────────────────── */
 .weight-header {
   background: var(--navy);
   border-radius: var(--radius);
@@ -3343,12 +3343,12 @@ const COURSE_DATA = {
       ]
     },
     {
-      num: 4, title: "Load Calculations — Residential Standard Method + THE WEIGHT",
-      goals: ["3 VA/sq ft rule for general lighting (2 VA for 2026)","Small appliance circuits: 2 × 1,500 VA","Laundry circuit: 1 × 1,500 VA","Table 220.42 demand factors","Dryers: minimum 5,000 VA (Table 220.54)","Ranges: Table 220.55 with Notes","Heat vs. A/C — use the larger load","83% rule for 100–400A single-family service","THE WEIGHT Load Calculator: hands-on practice"],
+      num: 4, title: "Load Calculations — Residential Standard Method + the Amp Academy Load Calculator",
+      goals: ["3 VA/sq ft rule for general lighting (2 VA for 2026)","Small appliance circuits: 2 × 1,500 VA","Laundry circuit: 1 × 1,500 VA","Table 220.42 demand factors","Dryers: minimum 5,000 VA (Table 220.54)","Ranges: Table 220.55 with Notes","Heat vs. A/C — use the larger load","83% rule for 100–400A single-family service","Amp Academy Load Calculator: hands-on practice"],
       articles: "Art. 220 (2017–2023) / Art. 120 (2026), Tables 220.42, 220.54, 220.55",
       bloom: "Apply / Analyze",
       video: "https://www.youtube.com/watch?v=YI0x8Eh1-hY&list=PLJokxpBhbuUc6LTyszEzt-FR7k8Tz4eMG&index=5",
-      edNote: { "2026": "THE WEIGHT uses 2 VA/sq ft and references Art. 120 for 2026 enrollees" },
+      edNote: { "2026": "the Amp Academy Load Calculator uses 2 VA/sq ft and references Art. 120 for 2026 enrollees" },
       quiz: [
         { q:"What is the general lighting load for a 1,600 sq ft single-family dwelling (2017/2020/2023)?", a:"1,600 × 3 VA = 4,800 VA", ref:"Art. 220.12" },
         { q:"How many VA must be added for small appliance and laundry circuits in each dwelling unit?", a:"4,500 VA — 2 small appliance circuits at 1,500 VA each + 1 laundry circuit at 1,500 VA", ref:"Art. 220.52" },
@@ -3574,7 +3574,7 @@ const COURSE_DATA = {
     {
       id:"load", name:"Load", title:"Full Residential & Multi-Family Load Calculations",
       video:"https://www.youtube.com/watch?v=HGf2YgJsubk",
-      topics:["Complete standard method walkthrough","Optional method (Art. 220.82)","Multi-family demand factors (Table 220.84)","3-phase commercial calculations","Service sizing: VA → amps → OCPD","THE WEIGHT Calculator extended practice session"],
+      topics:["Complete standard method walkthrough","Optional method (Art. 220.82)","Multi-family demand factors (Table 220.84)","3-phase commercial calculations","Service sizing: VA → amps → OCPD","Amp Academy Load Calculator extended practice session"],
       articles:"Art. 220, Tables 220.42, 220.54, 220.55, 220.84"
     },
     {
@@ -4432,7 +4432,7 @@ const COURSE_DATA = {
   }
 };
 </script>
-<!--AA-CALC-CORE-v0.5:BEGIN sha256:53d28480aa48057da5639c1da42582db65cd835a7927c8bffa9d00a1072691fe-->
+<!--AA-CALC-CORE-v0.5:BEGIN sha256:7165e1a89ab3dc5cba2b67af918583e198eeca28b949f07136489a11da27aa26-->
 <script>
 /* ============================================================================
  * Amp Academy Calculators — CANONICAL COMPUTE CORE
@@ -4468,7 +4468,7 @@ const COURSE_DATA = {
  *         NOT YET INCLUDED (next pass): the demand-SCENARIO orchestration
  *         (220.83 / .86 / .88 / .102 / .103) and per-surface DOM adapters.
  *   v0.2  Added Load Standard-Method ORCHESTRATION (loadStandardDwelling).
- *         Ties out against "The Weight" Load-tab worked example = 27,618 VA.
+ *         Ties out against the reference spreadsheet Load-tab worked example = 27,618 VA.
  *         Still pending: other demand scenarios + DOM adapters + Annex D.
  *   v0.3  Authority shift: NEC is the oracle, spreadsheet is reference only.
  *         Added Optional 220.82 (full (B)+(C) menu — corrects the sheet's
@@ -4800,7 +4800,7 @@ const COURSE_DATA = {
 
   /* ===== LOAD ORCHESTRATION — Standard Method, dwelling =================== */
   // Assembles the kernels into a full Standard Calculated Load (VA).
-  // Tie-out target: "The Weight" Load tab worked example = 27,618 VA (2017).
+  // Tie-out target: the reference spreadsheet Load tab worked example = 27,618 VA (2017).
   // i = {
   //   sqft, vaPerSqFt, smallApplianceCircuits=2, laundryCircuits=1,
   //   fastened:[{qty,va}], range:{qty,kw}, dryer:{qty,va},
@@ -4859,7 +4859,7 @@ const COURSE_DATA = {
    *   ac 100% | heatPumpCompressor 100% (+65% supplemental if simultaneous) |
    *   centralElectricHeat 65% | <4 separately-controlled space heaters 65% |
    *   >=4 separately-controlled 40% | electric thermal storage 100%.
-   * NOTE vs "The Weight": the sheet used a simplified "larger of heat/cool" and
+   * NOTE vs the reference spreadsheet: the sheet used a simplified "larger of heat/cool" and
    *   did not implement the full (C) menu — corrected here. (Flagged in ledger.)            */
   function loadOptionalDwelling(i, flags) {
     i = i || {};
