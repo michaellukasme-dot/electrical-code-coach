@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <!-- v2.0.11 2026-06-18 :: obsolete spreadsheet name removed everywhere — course content now "Amp Academy Load Calculator"; engine re-vendored from scrubbed AA-CALC-CORE v0.5 (sha 7165e1a8…; 54/54). SW cache ecc-v4. -->
 <!-- ECC build :: engine-vendor v0.5 2026-06-18 :: lc* + amp* leaves delegate to AA-CALC-CORE v0.5 (sha 53d28480…fe; 54/54) + range/dryer 0-nameplate guard + laundry label. -->
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- PWA SURFACE (added 2026-06-08) -->
-  <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0F1F3D">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,6 +22,7 @@
      Body: Inter Tight (refined neogrotesque, generous reading)
      Mono: JetBrains Mono (technical clarity for code refs and calcs) -->
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800;9..144,900&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   /* ── Color: deep navy + copper accent, restrained greens for status ── */
@@ -2654,9 +2654,12 @@ a:hover { text-decoration: underline; }
   .screen-lede { font-size: 0.9rem; }
 }
 
+h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",sans-serif!important}
 </style>
+<style id="aa-theme">html[data-theme="dark"]{--white:#161E2E;--paper:#0E1422;--cream:#1E2740;--gray1:#1E2740;--gray2:#2A3550;--gray3:#9AA4B6;--gray4:#AEB7C7}html[data-theme="dark"] body{background:#0E1422;color:#EAEEF6}.aa-tgl{position:fixed;top:10px;right:12px;z-index:99999;font-size:15px;line-height:1;background:rgba(20,30,50,.55);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 10px;cursor:pointer}</style>
 </head>
 <body>
+<button class="aa-tgl" onclick="aaTgl()" aria-label="Toggle light or dark">◐</button>
 
 <header id="site-header">
   <div class="logo">
@@ -6979,5 +6982,6 @@ init();
 <script>/* PWA SURFACE */
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./service-worker.js').catch(function(){});});}
 </script>
+<script>function aaTgl(){var h=document.documentElement,d=h.getAttribute("data-theme")==="dark";h.setAttribute("data-theme",d?"light":"dark");try{localStorage.setItem("aa.theme",d?"light":"dark")}catch(e){}}(function(){try{var t=localStorage.getItem("aa.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 </body>
 </html>

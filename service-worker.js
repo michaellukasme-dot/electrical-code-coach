@@ -1,8 +1,8 @@
 /* service-worker.js — Electrical Code Coach · PWA SURFACE
-   v2.0.10 deploy: cache bumped ecc-v2 -> ecc-v3 to push the AA-CALC-CORE v0.5 engine
+   v2.0.10 deploy: cache bumped ecc-v6 -> ecc-v6 to push the AA-CALC-CORE v0.5 engine
    (Sader Table 250.66 GEC safety fix + Ampacity vendor) to installed apps + returning
    browsers (cache-first shell otherwise serves stale). Deploy as service-worker.js. */
-const CACHE='ecc-v3';
+const CACHE='ecc-v6';
 const SHELL=['./','./index.html','./manifest.json','./apple-touch-icon.png',
   './icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));});
