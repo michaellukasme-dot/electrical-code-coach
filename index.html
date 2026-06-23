@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<!-- v2.0.11 2026-06-18 :: obsolete spreadsheet name removed everywhere — course content now "Amp Academy Load Calculator"; engine re-vendored from scrubbed AA-CALC-CORE v0.5 (sha 7165e1a8…; 54/54). SW cache ecc-v4. -->
-<!-- ECC build :: engine-vendor v0.5 2026-06-18 :: lc* + amp* leaves delegate to AA-CALC-CORE v0.5 (sha 53d28480…fe; 54/54) + range/dryer 0-nameplate guard + laundry label. -->
-<html lang="en" data-theme="light">
+<!-- v2.1.0 2026-06-23 :: PRIVACY SCRUB — instructor identity is presented ONLY as "The Electrical Code Coach" / "the Code Coach" across all student-visible copy and view-source (identifiers, CSS classes, screen ids, rounding-rule literal). No engine/logic change vs v2.0.9. -->
+<!-- v2.0.9 2026-06-08 :: COPY FIX — corrected all former-instructor mis-credits to The Electrical Code Coach (SME, confirmed by SME<->owner email). Credit CSS class renamed. No engine change: AA-CALC-CORE v0.4 sha bdfe8d79 unchanged. GEC/Ampacity vendor HELD pending Sader 250.66 verification. -->
+<!-- ECC build :: Load-Calculator engine-vendor 2026-06-08 :: lc* leaves delegate to AA-CALC-CORE v0.4 (sha bdfe8d793657a21c..., 33/33, 184/184 parity) + range/dryer 0-nameplate guard + laundry label. Ampacity (amp*) pass pending. -->
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- PWA SURFACE (added 2026-06-08) -->
+  <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0F1F3D">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,7 +24,6 @@
      Body: Inter Tight (refined neogrotesque, generous reading)
      Mono: JetBrains Mono (technical clarity for code refs and calcs) -->
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800;9..144,900&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   /* ── Color: deep navy + copper accent, restrained greens for status ── */
@@ -380,7 +381,7 @@ body.edition-2026 { --ed-current: var(--ed-2026); --ed-current-deep: var(--ed-20
   font-weight: 400;
   position: relative;
 }
-.perry-credit {
+.coach-credit {
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
@@ -393,7 +394,7 @@ body.edition-2026 { --ed-current: var(--ed-2026); --ed-current-deep: var(--ed-20
   position: relative;
   letter-spacing: 0.01em;
 }
-.perry-credit strong { color: var(--white); font-weight: 600; }
+.coach-credit strong { color: var(--white); font-weight: 600; }
 
 
 /* ── HERO LAYOUT WITH LOGO ─────────────────────────────────────────── */
@@ -862,7 +863,7 @@ body.edition-2026 { --ed-current: var(--ed-2026); --ed-current-deep: var(--ed-20
 }
 .vocab-def { font-size: 0.83rem; color: var(--gray3); line-height: 1.5; }
 
-/* ── the Amp Academy Load Calculator ────────────────────────────────────────────────────── */
+/* ── THE WEIGHT ────────────────────────────────────────────────────── */
 .weight-header {
   background: var(--navy);
   border-radius: var(--radius);
@@ -1107,7 +1108,7 @@ a:hover { text-decoration: underline; }
   max-width: 70ch;
 }
 
-/* Perry's Rules */
+/* the Code Coach's Rules */
 .rules-stack { display: grid; gap: var(--s-5); }
 .rule-card {
   background: var(--white);
@@ -2641,7 +2642,7 @@ a:hover { text-decoration: underline; }
 }
 .lc-banner-close:hover { color: var(--navy); }
 
-/* Print stylesheet — Perry's 10 Tabs reference card */
+/* Print stylesheet — the Code Coach's 10 Tabs reference card */
 @media print {
   body { background: white; }
   #site-header, #sidebar, #main-footer, .tabs-card-header button, .module-edition-note { display: none !important; }
@@ -2654,12 +2655,9 @@ a:hover { text-decoration: underline; }
   .screen-lede { font-size: 0.9rem; }
 }
 
-h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",sans-serif!important}
 </style>
-<style id="aa-theme">html[data-theme="dark"]{--white:#161E2E;--paper:#0E1422;--cream:#1E2740;--gray1:#1E2740;--gray2:#2A3550;--gray3:#9AA4B6;--gray4:#AEB7C7}html[data-theme="dark"] body{background:#0E1422;color:#EAEEF6}.aa-tgl{position:fixed;top:10px;right:12px;z-index:99999;font-size:15px;line-height:1;background:rgba(20,30,50,.55);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 10px;cursor:pointer}</style>
 </head>
 <body>
-<button class="aa-tgl" onclick="aaTgl()" aria-label="Toggle light or dark">◐</button>
 
 <header id="site-header">
   <div class="logo">
@@ -2711,8 +2709,8 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
     </div>
     <div class="sidebar-section">
       <div class="sidebar-section-title">Reference</div>
-      <div class="nav-item" onclick="showScreen('perryRules')"><span class="nav-num">⚠</span><span>Perry's Updated Rules</span></div>
-      <div class="nav-item" onclick="showScreen('tabs')"><span class="nav-num">10</span><span>Perry's 10 Tabs</span></div>
+      <div class="nav-item" onclick="showScreen('coachRules')"><span class="nav-num">⚠</span><span>The Code Coach's Updated Rules</span></div>
+      <div class="nav-item" onclick="showScreen('tabs')"><span class="nav-num">10</span><span>The Code Coach's 10 Tabs</span></div>
       <div class="nav-item" onclick="showScreen('workedExamples')"><span class="nav-num">∑</span><span>Worked Examples</span></div>
     </div>
     <div class="sidebar-section">
@@ -2733,7 +2731,7 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
           <div class="hero-text">
             <h1><span class="h1-accent"><span id="hero-edition-label">NEC 2017</span> · Journeyman &amp; Master Exam Prep</span>Electrical Code Coach</h1>
             <p>The complete National Electrical Code exam prep course. Eleven structured weeks plus eight specialty modules covering every calculation type, code lookup pattern, and exam trap on the journeyman and master exams. Quizzes with answer rationales, a five-calculator suite, edition-aware content for NEC 2017 through 2026, and a final readiness assessment.</p>
-            <div class="perry-credit">⚡ Curriculum developed by <strong style="margin:0 0.3rem">Perry</strong> · The Electrical Code Coach · <a href="https://electricalcodecoach.com" target="_blank" style="color:var(--gold)">electricalcodecoach.com</a></div>
+            <div class="coach-credit">⚡ Curriculum developed by <strong style="margin:0 0.3rem">The Electrical Code Coach</strong> · <a href="https://electricalcodecoach.com" target="_blank" style="color:var(--gold)">electricalcodecoach.com</a></div>
           </div>
         </div>
       </div>
@@ -2757,20 +2755,20 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
       </div>
 
       <div class="info-card">
-        <h3>📺 Perry — The Electrical Code Coach</h3>
-        <p style="font-size:0.87rem;color:var(--gray3);line-height:1.7">Perry is the instructor behind The Electrical Code Coach — a working electrician and exam-prep instructor whose video curriculum has helped thousands of candidates pass their journeyman and master exams. This course is built from his complete teaching program, with every lesson restructured for self-paced digital study, every quiz rebuilt with full answer rationales, and every calculation type given a worked example you can step through at your own pace.</p>
+        <h3>📺 The Electrical Code Coach</h3>
+        <p style="font-size:0.87rem;color:var(--gray3);line-height:1.7">The Electrical Code Coach is the instructor and subject-matter expert behind this course — a working electrician and exam-prep instructor whose video curriculum has helped thousands of candidates pass their journeyman and master exams. This course is built from his complete teaching program, with every lesson restructured for self-paced digital study, every quiz rebuilt with full answer rationales, and every calculation type given a worked example you can step through at your own pace.</p>
       </div>
 
       <div class="info-card" style="border-left:4px solid var(--gold)">
         <h3>⚡ What's New in v2.0</h3>
         <ul style="font-size:0.85rem;color:var(--text);line-height:1.8;list-style:none;padding:0">
-          <li>✓ <strong>Perry's Updated Rules</strong> — corrections from the program's remaster baked in (starting with the pipe-fill rounding rule)</li>
+          <li>✓ <strong>the Code Coach's Updated Rules</strong> — corrections from the program's remaster baked in (starting with the pipe-fill rounding rule)</li>
           <li>✓ <strong>200+ questions with rationales</strong> citing article, page, and table for every answer</li>
           <li>✓ <strong>Five-calculator suite</strong> — full Article 220 Load Calculator, plus Box Fill, Pipe Fill, Voltage Drop, Motor FLC</li>
           <li>✓ <strong>Worked example walkthroughs</strong> for every calculation type</li>
           <li>✓ <strong>Progress dashboard</strong> with weak-area flagging</li>
           <li>✓ <strong>Final readiness module</strong> — 7-day study plan and 100-question practice final</li>
-          <li>✓ <strong>Printable resources</strong> — Perry's 10 Tabs reference card, glossary, formula sheet</li>
+          <li>✓ <strong>Printable resources</strong> — the Code Coach's 10 Tabs reference card, glossary, formula sheet</li>
         </ul>
       </div>
     </div>
@@ -2779,7 +2777,7 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
     <div id="screen-overview" class="screen">
       <h2 style="font-family:var(--font-head);font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:1.5rem">Course Overview</h2>
       <div class="info-card">
-        <h3>⚡ Three Ways to Study Perry's Curriculum</h3>
+        <h3>⚡ Three Ways to Study the Code Coach's Curriculum</h3>
         <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
           <thead><tr>
             <th style="text-align:left;padding:0.5rem;background:var(--navy);color:white;font-family:var(--font-head)">Option</th>
@@ -2787,8 +2785,8 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
             <th style="text-align:left;padding:0.5rem;background:var(--navy);color:white;font-family:var(--font-head)">Price</th>
           </tr></thead>
           <tbody>
-            <tr style="background:var(--gray1)"><td style="padding:0.6rem 0.5rem;font-weight:600">Perry's YouTube</td><td style="padding:0.6rem 0.5rem">Videos only — with ads</td><td style="padding:0.6rem 0.5rem">Free</td></tr>
-            <tr><td style="padding:0.6rem 0.5rem;font-weight:600">Perry's Site</td><td style="padding:0.6rem 0.5rem">Same videos — no ads</td><td style="padding:0.6rem 0.5rem">$45/yr</td></tr>
+            <tr style="background:var(--gray1)"><td style="padding:0.6rem 0.5rem;font-weight:600">The Code Coach's YouTube</td><td style="padding:0.6rem 0.5rem">Videos only — with ads</td><td style="padding:0.6rem 0.5rem">Free</td></tr>
+            <tr><td style="padding:0.6rem 0.5rem;font-weight:600">The Code Coach's Site</td><td style="padding:0.6rem 0.5rem">Same videos — no ads</td><td style="padding:0.6rem 0.5rem">$45/yr</td></tr>
             <tr style="background:rgba(245,168,0,0.06)"><td style="padding:0.6rem 0.5rem;font-weight:700;color:var(--navy)">This Course ★</td><td style="padding:0.6rem 0.5rem">Full structured course — 200+ quiz questions with rationales, flashcards, 5-calculator suite, worked examples, progress tracking, final readiness assessment</td><td style="padding:0.6rem 0.5rem;font-weight:700;color:var(--green)">See pricing</td></tr>
           </tbody>
         </table>
@@ -3167,7 +3165,7 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
 
             <div class="amp-footer">
               <span id="amp-filter-msg" class="amp-filter-msg">Showing 9 of 9 applicable scenarios</span>
-              <span class="amp-coming-soon">⏳ "Adjusted Calculated Load" — coming in a future update once we lock the source rule with Perry</span>
+              <span class="amp-coming-soon">⏳ "Adjusted Calculated Load" — coming in a future update once we lock the source rule with the Code Coach</span>
             </div>
           </div>
 
@@ -3178,18 +3176,18 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
     <!-- ═══ NEW CALCULATOR SCREENS (generic, generated) ═══ -->
     <div id="calc-screens"></div>
 
-    <!-- ═══ PERRY'S UPDATED RULES ═══ -->
-    <div id="screen-perryRules" class="screen">
-      <h2 class="screen-h2">Perry's Updated Rules</h2>
-      <p class="screen-lede">As Perry remasters his program, some rules from older video lessons have been refined. These corrections come directly from Perry — they are the most current guidance and what's reflected in this course's quizzes and calculators.</p>
-      <div id="perryRules-list" class="rules-stack"></div>
+    <!-- ═══ THE CODE COACH'S UPDATED RULES ═══ -->
+    <div id="screen-coachRules" class="screen">
+      <h2 class="screen-h2">The Code Coach's Updated Rules</h2>
+      <p class="screen-lede">As the Code Coach remasters his program, some rules from older video lessons have been refined. These corrections come directly from the Code Coach — they are the most current guidance and what's reflected in this course's quizzes and calculators.</p>
+      <div id="coachRules-list" class="rules-stack"></div>
     </div>
 
-    <!-- ═══ PERRY'S 10 TABS ═══ -->
+    <!-- ═══ THE CODE COACH'S 10 TABS ═══ -->
     <div id="screen-tabs" class="screen">
       <div class="tabs-card-header">
         <div>
-          <h2 class="screen-h2" style="margin-bottom:0.25rem">Perry's 10 Essential Tabs</h2>
+          <h2 class="screen-h2" style="margin-bottom:0.25rem">The Code Coach's 10 Essential Tabs</h2>
           <p class="screen-lede" style="margin-bottom:0">Tab your NEC code book at these 10 articles. Memorize the page numbers. They cover the most-asked exam topics that don't appear in the index where you'd expect.</p>
         </div>
         <button class="btn btn-secondary" onclick="window.print()">🖨 Print Reference Card</button>
@@ -3225,7 +3223,7 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
     </div>
 
     <footer id="main-footer">
-      <span>⚡ Electrical Code Coach · Curriculum by <a href="https://electricalcodecoach.com" target="_blank">Perry</a> · Used with permission</span>
+      <span>⚡ Electrical Code Coach · Curriculum by <a href="https://electricalcodecoach.com" target="_blank">The Electrical Code Coach</a> · Used with permission</span>
       <span style="font-family:var(--font-mono);font-size:0.7rem">v2.0-beta · <span id="footer-edition-label">NEC 2017</span></span>
     </footer>
   </main>
@@ -3235,12 +3233,12 @@ h1,h2,h3,h4{font-family:"Syne",sans-serif!important}body{font-family:"Inter",san
 const COURSE_DATA = {
   meta: {
     title: "Electrical Code Coach",
-    subtitle: "NEC Exam Preparation · Perry's Curriculum",
+    subtitle: "NEC Exam Preparation · the Code Coach's Curriculum",
     courseId: "ECC-NEC2017",
     version: "2.0-beta",
     editions: ["2017","2020","2023","2026"],
     activeEdition: "2017",
-    instructor: "Perry",
+    instructor: "The Electrical Code Coach",
     instructorRole: "The Electrical Code Coach",
     site: "electricalcodecoach.com",
     youtube: "https://www.youtube.com/c/ElectricalCodeCoach"
@@ -3346,12 +3344,12 @@ const COURSE_DATA = {
       ]
     },
     {
-      num: 4, title: "Load Calculations — Residential Standard Method + the Amp Academy Load Calculator",
-      goals: ["3 VA/sq ft rule for general lighting (2 VA for 2026)","Small appliance circuits: 2 × 1,500 VA","Laundry circuit: 1 × 1,500 VA","Table 220.42 demand factors","Dryers: minimum 5,000 VA (Table 220.54)","Ranges: Table 220.55 with Notes","Heat vs. A/C — use the larger load","83% rule for 100–400A single-family service","Amp Academy Load Calculator: hands-on practice"],
+      num: 4, title: "Load Calculations — Residential Standard Method + THE WEIGHT",
+      goals: ["3 VA/sq ft rule for general lighting (2 VA for 2026)","Small appliance circuits: 2 × 1,500 VA","Laundry circuit: 1 × 1,500 VA","Table 220.42 demand factors","Dryers: minimum 5,000 VA (Table 220.54)","Ranges: Table 220.55 with Notes","Heat vs. A/C — use the larger load","83% rule for 100–400A single-family service","THE WEIGHT Load Calculator: hands-on practice"],
       articles: "Art. 220 (2017–2023) / Art. 120 (2026), Tables 220.42, 220.54, 220.55",
       bloom: "Apply / Analyze",
       video: "https://www.youtube.com/watch?v=YI0x8Eh1-hY&list=PLJokxpBhbuUc6LTyszEzt-FR7k8Tz4eMG&index=5",
-      edNote: { "2026": "the Amp Academy Load Calculator uses 2 VA/sq ft and references Art. 120 for 2026 enrollees" },
+      edNote: { "2026": "THE WEIGHT uses 2 VA/sq ft and references Art. 120 for 2026 enrollees" },
       quiz: [
         { q:"What is the general lighting load for a 1,600 sq ft single-family dwelling (2017/2020/2023)?", a:"1,600 × 3 VA = 4,800 VA", ref:"Art. 220.12" },
         { q:"How many VA must be added for small appliance and laundry circuits in each dwelling unit?", a:"4,500 VA — 2 small appliance circuits at 1,500 VA each + 1 laundry circuit at 1,500 VA", ref:"Art. 220.52" },
@@ -3424,7 +3422,7 @@ const COURSE_DATA = {
       goals: ["Class I, II, III classified locations","Division 1 and Division 2 definitions","Zone 0, 1, 2 classification system (Art. 505, 506)","NPT fitting thread requirements: at least 5 threads (500.8(E)(1))","Manual fuel shut-off valve marking (692.54)","Outdoor overhead conductors over 1,000V (399.1)","Bonding in classified locations"],
       articles: "Art. 399, 500–516, 692",
       bloom: "Remember / Understand / Apply",
-      video: null,  // Original URL u5x7xTZthCY went dead — pending replacement from Perry's current playlist
+      video: null,  // Original URL u5x7xTZthCY went dead — pending replacement from the Code Coach's current playlist
       videoSearchTerm: "hazardous locations class division",  // For "find on channel" link
       edNote: { "2026": "Bonding for all classes/divisions now consolidated into Art. 500 (formerly split across 501/502/503)" },
       quiz: [
@@ -3443,7 +3441,7 @@ const COURSE_DATA = {
         { q:"How many 6 AWG RHH conductors fit in 1 inch PVC SCHED 40?", a:"3 conductors. Annex C Table C.11.", ref:"Annex C, Table C.11" },
         { q:"When all conductors are the same size and insulation, which tables do you use for pipe sizing?", a:"Annex C — Tables C.1 through C.13 depending on conduit type.", ref:"Annex C" },
         { q:"How do you handle pipe fill when conductors are of mixed sizes or insulations?", a:"Use Chapter 9 Tables 1, 4, and 5. Look up the 40% fill area of the conduit, subtract the area used by existing conductors, then divide remaining space by the cross-sectional area of the new conductor.", ref:"Ch 9 Tables 1, 4, 5" },
-        { q:"Per Perry's Updated Rule, if your pipe fill calculation gives 22.4 conductors, what's the answer?", a:"23 conductors. Any decimal portion of a conductor counts as a full conductor — round UP. Older guidance about rounding at .8 has been retired.", ref:"Perry's Updated Rule" }
+        { q:"Per the Code Coach's Updated Rule, if your pipe fill calculation gives 22.4 conductors, what's the answer?", a:"23 conductors. Any decimal portion of a conductor counts as a full conductor — round UP. Older guidance about rounding at .8 has been retired.", ref:"the Code Coach's Updated Rule" }
       ]
     },
     {
@@ -3524,7 +3522,7 @@ const COURSE_DATA = {
     },
     {
       num: 11, title: "Transformers, Energy Management & Exam Strategy",
-      goals: ["Transformer installation (Art. 450)","Wye and Delta connections","Turn ratio: V_primary / V_secondary = N_primary / N_secondary","Fuel cell system disconnect (Art. 692)","GEC for transformer secondary (Table 250.66)","Cabinet air space 251V–1,000V: 1 inch (312.11(A)(2))","Perry's PEIR exam strategy system","Final NEC Navigator speed drill"],
+      goals: ["Transformer installation (Art. 450)","Wye and Delta connections","Turn ratio: V_primary / V_secondary = N_primary / N_secondary","Fuel cell system disconnect (Art. 692)","GEC for transformer secondary (Table 250.66)","Cabinet air space 251V–1,000V: 1 inch (312.11(A)(2))","the Code Coach's PEIR exam strategy system","Final NEC Navigator speed drill"],
       articles: "Art. 450, 692, 312.11, Table 250.66; 2026: Art. 130 (EMS)",
       bloom: "Apply / Analyze / Evaluate",
       video: "https://www.youtube.com/watch?v=Hw53pJkf6WA&list=PLJokxpBhbuUc6LTyszEzt-FR7k8Tz4eMG&index=11",
@@ -3553,7 +3551,7 @@ const COURSE_DATA = {
     {
       id:"bonus", name:"Bonus", title:"NEC Exam Strategy & Special Systems Survey",
       video:"https://www.youtube.com/watch?v=s1He8xvrDfU",
-      topics:["Perry's PEIR system for difficult calculations","Control and signaling circuits — Article 725","Exam time management strategy","Final code book tabbing review","NEC article quick-reference drill"],
+      topics:["the Code Coach's PEIR system for difficult calculations","Control and signaling circuits — Article 725","Exam time management strategy","Final code book tabbing review","NEC article quick-reference drill"],
       articles:"Art. 725; Exam strategy"
     },
     {
@@ -3577,7 +3575,7 @@ const COURSE_DATA = {
     {
       id:"load", name:"Load", title:"Full Residential & Multi-Family Load Calculations",
       video:"https://www.youtube.com/watch?v=HGf2YgJsubk",
-      topics:["Complete standard method walkthrough","Optional method (Art. 220.82)","Multi-family demand factors (Table 220.84)","3-phase commercial calculations","Service sizing: VA → amps → OCPD","Amp Academy Load Calculator extended practice session"],
+      topics:["Complete standard method walkthrough","Optional method (Art. 220.82)","Multi-family demand factors (Table 220.84)","3-phase commercial calculations","Service sizing: VA → amps → OCPD","THE WEIGHT Calculator extended practice session"],
       articles:"Art. 220, Tables 220.42, 220.54, 220.55, 220.84"
     },
     {
@@ -4227,12 +4225,12 @@ const COURSE_DATA = {
     }
   },
 
-  /* ── PERRY'S UPDATED RULES ─────────────────────────────────────────
-     Corrections from Perry's program remaster. Each rule shows the
+  /* ── THE CODE COACH'S UPDATED RULES ─────────────────────────────────────────
+     Corrections from the Code Coach's program remaster. Each rule shows the
      previous teaching, what changed, and where it applies. Surfaces
      as callouts in the affected modules and as a standalone reference.
   ─────────────────────────────────────────────────────────────────── */
-  perryUpdatedRules: [
+  coachUpdatedRules: [
     {
       id: "pipe-fill-rounding",
       title: "Pipe Fill Rounding — Any Decimal Counts",
@@ -4240,7 +4238,7 @@ const COURSE_DATA = {
       previous: "Some older video lessons said to round up only at .8 or above (per Annex C convention). That advice was specific to Annex C creators and shouldn't apply to your fill calculations.",
       current: "There are no partial conductors. The moment you cross 0.1 of a conductor it counts as a full conductor — round UP. Example: 22.4 conductors → 23. Not 22.",
       ref: "Chapter 9 Tables 1, 4, 5",
-      perryQuote: "There are no partial conductors. The moment we crest 0.1 of a conductor it's a full conductor.",
+      coachQuote: "There are no partial conductors. The moment we crest 0.1 of a conductor it's a full conductor.",
       icon: "🔄"
     }
   ],
@@ -4262,7 +4260,7 @@ const COURSE_DATA = {
           { text: "Space remaining: 1.647 − 0.824 = 0.823 sq in", ref: "" },
           { text: "Look up area of one #8 THWN conductor: 0.0366 sq in", ref: "Ch 9 Table 5" },
           { text: "Divide remaining space by one #8 THWN area: 0.823 ÷ 0.0366 = 22.48", ref: "" },
-          { text: "Apply Perry's Updated Rule — any decimal counts as a full conductor → round UP to 23", ref: "Perry's Updated Rule" }
+          { text: "Apply the Code Coach's Updated Rule — any decimal counts as a full conductor → round UP to 23", ref: "the Code Coach's Updated Rule" }
         ],
         answer: "23 additional #8 THWN conductors fit",
         ruleCallout: "pipe-fill-rounding"
@@ -4353,7 +4351,7 @@ const COURSE_DATA = {
     pipeFill: {
       title: "Pipe Fill Calculator",
       icon: "🔧",
-      sub: "Per NEC Chapter 9 Tables — uses Perry's Updated Rounding Rule",
+      sub: "Per NEC Chapter 9 Tables — uses the Code Coach's Updated Rounding Rule",
       steps: [
         { id:"conduitArea", label:"Conduit fill area at 40%", unit:"sq in",
           hint:"From Ch 9 Table 4 — e.g. 2.5\" PVC SCHED 80 = 1.647" },
@@ -4392,10 +4390,10 @@ const COURSE_DATA = {
     }
   },
 
-  /* ── PERRY'S 10 ESSENTIAL TABS ─────────────────────────────────────
+  /* ── THE CODE COACH'S 10 ESSENTIAL TABS ─────────────────────────────────────
      For printable reference card and Tools section.
   ─────────────────────────────────────────────────────────────────── */
-  perrysTabs: [
+  coachTabs: [
     { num: 1,  title: "High Leg",                             art: "110.15",       pg: "45",  why: "Identifies B-phase on 3-phase 4-wire delta; orange marker required" },
     { num: 2,  title: "Dryer & Range Demand Factors",         art: "Table 220.54", pg: "73",  why: "Demand factors for 5+ dryers; range column selection" },
     { num: 3,  title: "Service Conductor Clearances",         art: "230.24",       pg: "85",  why: "Vertical, road, and roof clearances for overhead service" },
@@ -4418,7 +4416,7 @@ const COURSE_DATA = {
       { day: 3, theme: "Calculations day",                    activities: ["Load Calculator — 5 scenarios", "Motor FLC calculator — 5 scenarios", "Pipe fill calculator with new rounding rule"] },
       { day: 4, theme: "Grounding & bonding",                 activities: ["Article 250 deep read", "GEC sizing practice", "Re-take Week 6 quiz"] },
       { day: 5, theme: "Special occupancies & equipment",     activities: ["Hazardous locations review", "Article 680 (pools)", "Article 690 (PV) for newer editions"] },
-      { day: 6, theme: "Practice final — full simulation",    activities: ["100-question simulated final", "Time limit: 4 hours", "Open book — use only Perry's tabs"] },
+      { day: 6, theme: "Practice final — full simulation",    activities: ["100-question simulated final", "Time limit: 4 hours", "Open book — use only the Code Coach's tabs"] },
       { day: 7, theme: "Light review and rest",               activities: ["Review only items missed on practice final", "No new content", "Sleep 8 hours"] }
     ],
     examDay: {
@@ -4426,7 +4424,7 @@ const COURSE_DATA = {
       doNotBring: ["Phone", "Smart watch", "Notes", "Programmable calculator", "Loose papers"],
       strategy: [
         "First pass: answer every question you can answer in under 30 seconds. Skip the rest.",
-        "Second pass: tackle look-ups using Perry's 5-step process — keyword → index → article → answer.",
+        "Second pass: tackle look-ups using the Code Coach's 5-step process — keyword → index → article → answer.",
         "Third pass: educated guesses on remaining. No question left blank.",
         "Calculation questions: write out the formula, plug in numbers, double-check the answer matches an option.",
         "Pacing: 80 questions ÷ 240 minutes = 3 min/question average. Don't camp on one question more than 5 minutes."
@@ -4435,12 +4433,12 @@ const COURSE_DATA = {
   }
 };
 </script>
-<!--AA-CALC-CORE-v0.5:BEGIN sha256:7165e1a89ab3dc5cba2b67af918583e198eeca28b949f07136489a11da27aa26-->
+<!--AA-CALC-CORE-v0.4:BEGIN sha256:bdfe8d793657a21cc4556647344e3bdf152c87068af53ea59078c51796ea23da-->
 <script>
 /* ============================================================================
  * Amp Academy Calculators — CANONICAL COMPUTE CORE
- * File: AA-CALC-CORE-v0.5.js
- * Version: v0.5  ·  2026-06-09
+ * File: AA-CALC-CORE-v0.4.js
+ * Version: v0.1  ·  2026-06-08
  * Owner: Michael "Stagger Lee" Lukas  ·  Architect: Claude Gaude
  *
  * PURPOSE
@@ -4460,18 +4458,18 @@ const COURSE_DATA = {
  *   Values are extracted from Michael's live ECC engine (his sourced data) and
  *   are referenced by NEC section number for audit. No NFPA prose is reproduced;
  *   calculation METHODS are not protectable. CITED values (newer-edition VA/ft2)
- *   remain flagged pending Perry's authoritative table.
+ *   remain flagged pending the Code Coach's authoritative table.
  *
  * CHANGELOG
  *   v0.1  Initial faithful extraction of the Load demand + sizing kernels, the
  *         Ampacity derating kernels, and the Box / Conduit / Voltage / Motor
  *         calculators. Voltage Drop gains 3-phase (sqrt(3)) — new vs live.
- *         Conduit fill exposes BOTH the NEC Ch.9 Note-7 (.8) rule and Perry's
- *         round-up rule; default = Perry's (matches live), flag-selectable.
+ *         Conduit fill exposes BOTH the NEC Ch.9 Note-7 (.8) rule and the Code Coach's
+ *         round-up rule; default = the Code Coach's (matches live), flag-selectable.
  *         NOT YET INCLUDED (next pass): the demand-SCENARIO orchestration
  *         (220.83 / .86 / .88 / .102 / .103) and per-surface DOM adapters.
  *   v0.2  Added Load Standard-Method ORCHESTRATION (loadStandardDwelling).
- *         Ties out against the reference spreadsheet Load-tab worked example = 27,618 VA.
+ *         Ties out against "The Weight" Load-tab worked example = 27,618 VA.
  *         Still pending: other demand scenarios + DOM adapters + Annex D.
  *   v0.3  Authority shift: NEC is the oracle, spreadsheet is reference only.
  *         Added Optional 220.82 (full (B)+(C) menu — corrects the sheet's
@@ -4482,16 +4480,6 @@ const COURSE_DATA = {
  *          310.12 (83%). See NEC_VERIFICATION_LEDGER.
  *   v0.4  Added Neutral 220.61 (always-computed) + occupancy->scenario
  *         applicability matrix (FARM per owner spec; others flagged).
- *   v0.5  SAFETY FIX (Sader gate). Replaced GEC_MAP, which was wrong at 13
- *         sizes, with verified material-aware Table 250.66 (GEC_CU + GEC_AL),
- *         range-based by service-conductor circular mils. gec() now takes
- *         (awg, material='cu'); Load-calc delegations unchanged (copper default).
- *         Added 250.66(A)/(B)/(C) electrode caps + gecElectrodeCap() (advisory,
- *         NOT auto-applied). Corrected harness: v0.4 asserted gec('2/0')='2'
- *         (locked in the bug); a 2/0 Cu service takes #4 Cu. Verified 2026-06-09
- *         vs ExpertCE / electricallicenserenewal / Zing2 / Mike Holt / Dakota
- *         Prep; stable across 2017/2020/2023/2026. egc (250.122) unchanged.
- *         FINAL printed-NEC sign-off (Sader) remains the formal gate-closer.
  * ========================================================================== */
 (function (root, factory) {
   const api = factory();
@@ -4550,53 +4538,11 @@ const COURSE_DATA = {
   const BREAKERS = [15,20,25,30,35,40,45,50,60,70,80,90,100,110,125,150,175,200,
     225,250,300,350,400,450,500,600,700,800,1000,1200,1600,2000,2500,3000,4000,5000,6000];
 
-  // Chapter 9 Table 8 — circular mils, used to bucket a service conductor into
-  // a Table 250.66 row. The NEC defines 250.66 rows by cmil ranges, so we map
-  // each size label to its area and compare, rather than guessing per-label.
-  const SIZE_CMIL = {
-    '14':4110,'12':6530,'10':10380,'8':16510,'6':26240,'4':41740,'3':52620,
-    '2':66360,'1':83690,'1/0':105600,'2/0':133100,'3/0':167800,'4/0':211600,
-    '250':250000,'300':300000,'350':350000,'400':400000,'500':500000,'600':600000,
-    '700':700000,'750':750000,'800':800000,'900':900000,'1000':1000000,
-    '1000+':1000000,'1100':1100000,'1250':1250000,'1500':1500000,
-    '1750':1750000,'2000':2000000};
-
-  // Table 250.66 — GEC keyed by the LARGEST UNGROUNDED SERVICE conductor.
-  // Each row = [inclusive upper cmil bound, GEC size]. Verified against multiple
-  // authoritative sources (ExpertCE, electricallicenserenewal.com, Zing2, Mike
-  // Holt forum, Dakota Prep) 2026-06-09. Stable across NEC 2017/2020/2023/2026.
-  // CORRECTS the v0.4 GEC_MAP, which was wrong at 13 sizes (small AWG returned
-  // its own size; gave #2 where #4/#6/#8 was correct).
-  const GEC_CU = [        // copper service conductor -> copper GEC
-    [ 66360, '8'  ],      // 2 AWG or smaller
-    [105600, '6'  ],      // 1 or 1/0
-    [167800, '4'  ],      // 2/0 or 3/0
-    [350000, '2'  ],      // over 3/0 through 350 kcmil
-    [600000, '1/0'],      // over 350 through 600
-    [1100000,'2/0'],      // over 600 through 1100
-    [Infinity,'3/0']      // over 1100
-  ];
-  const GEC_AL = [        // aluminum service conductor -> aluminum GEC
-    [105600, '6'  ],      // 1/0 or smaller
-    [167800, '4'  ],      // 2/0 or 3/0
-    [250000, '2'  ],      // 4/0 or 250 kcmil
-    [500000, '1/0'],      // over 250 through 500
-    [900000, '3/0'],      // over 500 through 900
-    [1750000,'4/0'],      // over 900 through 1750
-    [Infinity,'250']      // over 1750
-  ];
-
-  // 250.66(A)/(B)/(C) — where the GEC is the SOLE connection to the named
-  // electrode, it need not be LARGER than the cap. Informational only: gec()
-  // returns the base Table 250.66 size; surfaces footnote the cap (we do NOT
-  // silently auto-apply it, since the calculator does not know electrode type).
-  const ELECTRODE_CAP = {
-    rod:      {cu:'6', al:'4',  sec:'250.66(A)'},
-    pipe:     {cu:'6', al:'4',  sec:'250.66(A)'},
-    plate:    {cu:'6', al:'4',  sec:'250.66(A)'},
-    concrete: {cu:'4', al:null, sec:'250.66(B)'},  // exception stated for copper
-    ring:     {cu:null,al:null, sec:'250.66(C)'}   // not smaller than ring conductor
-  };
+  // Table 250.66 — GEC (Cu) keyed by largest service conductor
+  const GEC_MAP = {'14':'14','12':'12','10':'10','8':'8','6':'6','4':'4','3':'4',
+    '2':'4','1':'4','1/0':'2','2/0':'2','3/0':'2','4/0':'2','250':'2','300':'2',
+    '350':'2','400':'2','500':'1/0','600':'1/0','700':'1/0','750':'2/0','900':'2/0',
+    '800':'2/0','1000':'2/0','1000+':'3/0'};
 
   // Table 314.16(B) — box-fill volume allowance (cu in) per conductor size
   const BOX_VOL = {14:2.00,12:2.25,10:2.50,8:3.00,6:5.00};
@@ -4674,27 +4620,7 @@ const COURSE_DATA = {
     return {size:'1000+', capacity:545};
   }
   function ocpd(amps)    { return BREAKERS.find(b => b >= amps) || amps; }      // 240.6(A)
-  // 250.66 — GEC sized on the largest ungrounded SERVICE conductor + material.
-  // Default material 'cu' so existing Load-calc delegations (which size a copper
-  // service conductor) are unchanged. Returns the BASE table size; electrode
-  // caps are advisory via gecElectrodeCap(), not auto-applied here.
-  function gec(awg, material) {
-    material = (material === 'al') ? 'al' : 'cu';
-    const cm = SIZE_CMIL[String(awg)];
-    const tbl = material === 'al' ? GEC_AL : GEC_CU;
-    if (cm == null) return '4';                 // unknown label -> conservative
-    for (const [maxCmil, size] of tbl) if (cm <= maxCmil) return size;
-    return tbl[tbl.length - 1][1];
-  }
-  // 250.66(A)/(B)/(C) — advisory cap when GEC is the sole connection to the
-  // named electrode. Returns {cap, section} or null. cap===null means "not
-  // smaller than the electrode/ring conductor" (no upper cap to report).
-  function gecElectrodeCap(electrodeType, material) {
-    material = (material === 'al') ? 'al' : 'cu';
-    const e = ELECTRODE_CAP[String(electrodeType)];
-    if (!e) return null;
-    return { cap: e[material] || null, section: e.sec };
-  }
+  function gec(awg)      { return GEC_MAP[String(awg)] || '4'; }                 // 250.66
   function egc(ocpdAmps) {                                                       // 250.122
     const o = ocpdAmps;
     if (o <= 15) return '14';  if (o <= 20) return '12';  if (o <= 60) return '10';
@@ -4764,10 +4690,10 @@ const COURSE_DATA = {
   // fillArea: usable conduit area (sq in) the user supplies (40%/31%/53% applied
   //   upstream, copyright-clean). existCount/existArea: conductors already in;
   //   newArea: area of each conductor to add.
-  // rule: 'perry' (any decimal rounds UP — Perry's Updated Rule, the live default)
+  // rule: 'coach' (any decimal rounds UP — the Code Coach's Updated Rule, the live default)
   //    or 'nec'   (Ch.9 Note 7: round up only when decimal >= 0.8, else down).
   function conduitFill(fillArea, existCount, existArea, newArea, rule) {
-    rule = rule || 'perry';
+    rule = rule || 'coach';
     const used   = clampPos(existCount) * clampPos(existArea);
     const remain = clampPos(fillArea) - used;
     const raw    = newArea > 0 ? remain / newArea : 0;
@@ -4775,7 +4701,7 @@ const COURSE_DATA = {
     if (raw <= 0) max = 0;
     else if (raw === Math.floor(raw)) max = Math.floor(raw);
     else if (rule === 'nec') max = (raw - Math.floor(raw) >= 0.8) ? Math.ceil(raw) : Math.floor(raw);
-    else max = Math.floor(raw) + 1;                    // 'perry'
+    else max = Math.floor(raw) + 1;                    // 'coach'
     return {usedArea:+used.toFixed(4), remainingArea:+remain.toFixed(4),
             rawCount:+raw.toFixed(3), maxConductors:max, rule};
   }
@@ -4803,7 +4729,7 @@ const COURSE_DATA = {
 
   /* ===== LOAD ORCHESTRATION — Standard Method, dwelling =================== */
   // Assembles the kernels into a full Standard Calculated Load (VA).
-  // Tie-out target: the reference spreadsheet Load tab worked example = 27,618 VA (2017).
+  // Tie-out target: "The Weight" Load tab worked example = 27,618 VA (2017).
   // i = {
   //   sqft, vaPerSqFt, smallApplianceCircuits=2, laundryCircuits=1,
   //   fastened:[{qty,va}], range:{qty,kw}, dryer:{qty,va},
@@ -4862,7 +4788,7 @@ const COURSE_DATA = {
    *   ac 100% | heatPumpCompressor 100% (+65% supplemental if simultaneous) |
    *   centralElectricHeat 65% | <4 separately-controlled space heaters 65% |
    *   >=4 separately-controlled 40% | electric thermal storage 100%.
-   * NOTE vs the reference spreadsheet: the sheet used a simplified "larger of heat/cool" and
+   * NOTE vs "The Weight": the sheet used a simplified "larger of heat/cool" and
    *   did not implement the full (C) menu — corrected here. (Flagged in ledger.)            */
   function loadOptionalDwelling(i, flags) {
     i = i || {};
@@ -4949,14 +4875,13 @@ const COURSE_DATA = {
 
   /* ---- public API -------------------------------------------------------- */
   return {
-    VERSION: 'v0.5',
-    tables: {AMPACITY_75CU, AMPACITY_CU, AMPACITY_AL, AMBIENT, BUNDLE, BREAKERS,
-             SIZE_CMIL, GEC_CU, GEC_AL, ELECTRODE_CAP, BOX_VOL, VD_K},
+    VERSION: 'v0.4',
+    tables: {AMPACITY_75CU, AMPACITY_CU, AMPACITY_AL, AMBIENT, BUNDLE, BREAKERS, GEC_MAP, BOX_VOL, VD_K},
     // load
     lightingDemand, dryerDF, dryerDemand, rangeDemand, loadStandardDwelling,
     loadOptionalDwelling, loadExistingDwelling, loadExistingDwellingAddl,
     neutralLoad, applicableScenarios, SCENARIO_APPLICABILITY,
-    sizeConductor75Cu, ocpd, gec, gecElectrodeCap, egc,
+    sizeConductor75Cu, ocpd, gec, egc,
     // ampacity
     ambientFactor, bundleFactor, ampacityConductor, sizeWithDerating,
     // discrete calculators
@@ -4965,7 +4890,7 @@ const COURSE_DATA = {
 });
 
 </script>
-<!--AA-CALC-CORE-v0.5:END-->
+<!--AA-CALC-CORE-v0.4:END-->
 <script>
 // ─── STATE ────────────────────────────────────────────────────────────────────
 let state = {
@@ -5172,19 +5097,19 @@ function buildWeekScreens() {
         ${w.video ? `
           <div class="video-wrap">
             <iframe src="${vid}" allowfullscreen loading="lazy"></iframe>
-            <div class="video-label"><span class="yt-badge">YouTube</span> Perry · The Electrical Code Coach · Week ${w.num}</div>
+            <div class="video-label"><span class="yt-badge">YouTube</span> The Electrical Code Coach · Week ${w.num}</div>
           </div>
-          <p style="font-size:0.82rem;color:var(--gray3);margin-top:0.75rem">Perry's original video lesson. Quizzes, flashcards, calculator practice, and worked-example walkthroughs in this course are designed to complement the video — built directly from Perry's teaching points and updated with his latest rule corrections.</p>
+          <p style="font-size:0.82rem;color:var(--gray3);margin-top:0.75rem">the Code Coach's original video lesson. Quizzes, flashcards, calculator practice, and worked-example walkthroughs in this course are designed to complement the video — built directly from the Code Coach's teaching points and updated with his latest rule corrections.</p>
         ` : `
           <div class="video-fallback">
             <div class="video-fallback-icon">📺</div>
             <h3>Video being updated</h3>
-            <p>Perry's video for this module is being replaced — the previous link is no longer available. The written material, quiz, flashcards, and calculators on this page are complete and ready to use without the video.</p>
+            <p>the Code Coach's video for this module is being replaced — the previous link is no longer available. The written material, quiz, flashcards, and calculators on this page are complete and ready to use without the video.</p>
             <div class="video-fallback-actions">
-              <a href="https://www.youtube.com/c/ElectricalCodeCoach/search?query=${encodeURIComponent(w.videoSearchTerm || w.title)}" target="_blank" rel="noopener" class="btn btn-primary">🔍 Search Perry's channel</a>
+              <a href="https://www.youtube.com/c/ElectricalCodeCoach/search?query=${encodeURIComponent(w.videoSearchTerm || w.title)}" target="_blank" rel="noopener" class="btn btn-primary">🔍 Search the Code Coach's channel</a>
               <a href="https://electricalcodecoach.com" target="_blank" rel="noopener" class="btn btn-secondary">Visit electricalcodecoach.com</a>
             </div>
-            <p style="font-size:0.78rem;color:var(--gray3);margin-top:1rem">If you find the current video on Perry's channel, you can share it with us so we can re-embed it.</p>
+            <p style="font-size:0.78rem;color:var(--gray3);margin-top:1rem">If you find the current video on the Code Coach's channel, you can share it with us so we can re-embed it.</p>
           </div>
         `}
       </div>
@@ -5233,7 +5158,7 @@ function buildBonusScreens() {
       <div id="tab-b${m.id}-video" class="tab-content">
         <div class="video-wrap">
           <iframe src="${vid}" allowfullscreen loading="lazy"></iframe>
-          <div class="video-label"><span class="yt-badge">YouTube</span> Perry · ${m.name} · Specialty Module</div>
+          <div class="video-label"><span class="yt-badge">YouTube</span> The Electrical Code Coach · ${m.name} · Specialty Module</div>
         </div>
       </div>
     </div>`;
@@ -5615,8 +5540,9 @@ const OCC_MAPPING_REVERSE = {
   religious: 'church'
 };
 
-// ── ENGINE VENDOR — Load-Calculator (lc*) leaves delegate to the verified
-// AA-CALC-CORE v0.5 (sha 53d28480aa48057da5639c1da42582db65cd835a7927c8bffa9d00a1072691fe; 54/54 verify; Table 250.66 GEC corrected, material-aware). One source of truth.
+// ── ENGINE VENDOR 2026-06-08 — Load-Calculator leaves now delegate to the verified
+// AA-CALC-CORE v0.4 (sha bdfe8d793657a21cc4556647344e3bdf152c87068af53ea59078c51796ea23da; 33/33; 184/184 leaf parity). One source of truth.
+// Ampacity (amp*) is a separate Cu/Al/temp pass — intentionally not touched here.
 if (typeof AmpCalc !== 'undefined') {
   lcApplyLightingDemand = function (occ, va) { return AmpCalc.lightingDemand(occ, va, {}); };
   lcDryerDF             = function (q)       { return AmpCalc.dryerDF(q); };
@@ -5625,22 +5551,6 @@ if (typeof AmpCalc !== 'undefined') {
   lcOCPD                = function (a)       { return AmpCalc.ocpd(a); };
   lcGEC                 = function (s)       { return AmpCalc.gec(s); };
   lcEGC                 = function (o)       { return AmpCalc.egc(o); };
-}
-
-// ── AMPACITY ENGINE VENDOR 2026-06-18 (v2.0.10) — amp* leaves delegate to AA-CALC-CORE v0.5
-// for every path the core covers with proven Cu+Al parity (0 divergences swept):
-//   ampOCPD, ampConductor, ampAmbientFactor, ampBundleFactor.
-// ampGEC delegates too — this propagates the v0.5 Table 250.66 SAFETY FIX (13 corrected
-// sizes: 3 Cu + 10 Al) to the Ampacity calculator, matching the Load Calculator.
-// RETAINED page-side (NOT vendored): ampEGC and ampBondingJumper — core.egc (250.122) is
-// copper-only by design and the core has no bonding-jumper, so delegating would DROP the
-// aluminum EGC/bonding path (a regression). Single-sourcing those awaits core v0.6 (Sader-gated).
-if (typeof AmpCalc !== 'undefined') {
-  ampOCPD          = function (a)       { return AmpCalc.ocpd(a); };
-  ampConductor     = function (l, m, t) { return AmpCalc.ampacityConductor(l, m, t); };
-  ampAmbientFactor = function (a, t)    { return AmpCalc.ambientFactor(a, t); };
-  ampBundleFactor  = function (n)       { return AmpCalc.bundleFactor(n); };
-  ampGEC           = function (s, m)    { return AmpCalc.gec(s, m); };
 }
 
 function populateLoadCalcDropdowns() {
@@ -5975,7 +5885,6 @@ function loadCalcRun() {
       <div class="lc-cond-size">#${gec} AWG</div>
       <div class="lc-cond-detail">Based on service conductor</div>
       <div class="lc-cond-nec">Table ${R.gec}</div>
-      <div class="lc-cond-note" style="font-size:0.68rem;color:var(--gray3);margin-top:0.3rem;line-height:1.4">Base Table 250.66 size. Where the GEC is the <em>sole</em> connection to a single electrode, 250.66(A)/(B)/(C) may permit smaller (e.g. #6 Cu to a ground rod, #4 Cu to a concrete-encased electrode) — not auto-applied here, since the electrode type is unknown.</div>
     </div>
     <div class="lc-cond-card">
       <div class="lc-cond-title">EGC (Cu)</div>
@@ -6269,7 +6178,7 @@ function ampScenarioVA() {
 
   // Schools — Table 220.86
   // First 3 VA/ft² @ 100%, next 17 VA/ft² @ 75%, remainder @ 25%
-  // (some printings cite "first 33,000 VA" as a fixed value; we use VA/ft² per Perry's sheet)
+  // (some printings cite "first 33,000 VA" as a fixed value; we use VA/ft² per the Code Coach's sheet)
   const sqftRaw = parseFloat(lcV('lc-sqft')) || 0;
   const areaUnit = lcV('lc-areaUnit');
   const sqft = areaUnit === 'sqm' ? sqftRaw * 10.764 : sqftRaw;
@@ -6555,11 +6464,11 @@ if (_origLoadCalcRun) {
   };
 }
 
-// ─── Perry's Updated Rules ──────────────────────────────────────────
-function buildPerryRules() {
-  const list = document.getElementById('perryRules-list');
+// ─── the Code Coach's Updated Rules ──────────────────────────────────────────
+function buildCoachRules() {
+  const list = document.getElementById('coachRules-list');
   if (!list) return;
-  list.innerHTML = COURSE_DATA.perryUpdatedRules.map(r => `
+  list.innerHTML = COURSE_DATA.coachUpdatedRules.map(r => `
     <div class="rule-card">
       <h3>${r.icon || '⚠'} ${r.title}</h3>
       <div class="rule-affects">Affects: <span>${r.affects.join(' · ')}</span></div>
@@ -6575,16 +6484,16 @@ function buildPerryRules() {
         <div class="rule-label">Ref</div>
         <div class="rule-body" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--gray4)">${r.ref}</div>
       </div>
-      ${r.perryQuote ? `<div class="rule-quote">"${r.perryQuote}" <span style="display:block;margin-top:0.4rem;font-family:var(--font-mono);font-style:normal;font-size:0.7rem;color:var(--gray3);font-weight:400">— Perry, in correspondence with a student about the rule change</span></div>` : ''}
+      ${r.coachQuote ? `<div class="rule-quote">"${r.coachQuote}" <span style="display:block;margin-top:0.4rem;font-family:var(--font-mono);font-style:normal;font-size:0.7rem;color:var(--gray3);font-weight:400">— the Code Coach, in correspondence with a student about the rule change</span></div>` : ''}
     </div>
   `).join('');
 }
 
-// ─── Perry's 10 Tabs ────────────────────────────────────────────────
+// ─── the Code Coach's 10 Tabs ────────────────────────────────────────────────
 function buildTabsRef() {
   const grid = document.getElementById('tabs-grid');
   if (!grid) return;
-  grid.innerHTML = COURSE_DATA.perrysTabs.map(t => `
+  grid.innerHTML = COURSE_DATA.coachTabs.map(t => `
     <div class="tab-ref-card">
       <div class="tab-ref-num">${String(t.num).padStart(2, '0')}</div>
       <div class="tab-ref-body">
@@ -6607,10 +6516,10 @@ function showWorkedExamples(btn, type) {
   container.innerHTML = examples.map(ex => {
     const ruleCallout = ex.ruleCallout
       ? (function(){
-          const rule = COURSE_DATA.perryUpdatedRules.find(r => r.id === ex.ruleCallout);
+          const rule = COURSE_DATA.coachUpdatedRules.find(r => r.id === ex.ruleCallout);
           if (!rule) return '';
           return `<div class="rule-callout">
-            <div class="rule-callout-title">${rule.icon || '⚠'} Perry's Updated Rule applied</div>
+            <div class="rule-callout-title">${rule.icon || '⚠'} The Code Coach's Updated Rule applied</div>
             <div class="rule-callout-body">${rule.current}</div>
           </div>`;
         })()
@@ -6675,10 +6584,10 @@ function buildCalcScreens() {
 }
 
 function renderRuleCalloutInline(ruleId) {
-  const r = COURSE_DATA.perryUpdatedRules.find(x => x.id === ruleId);
+  const r = COURSE_DATA.coachUpdatedRules.find(x => x.id === ruleId);
   if (!r) return '';
   return `<div class="rule-callout" style="margin-bottom:1.5rem">
-    <div class="rule-callout-title">${r.icon || '⚠'} Perry's Updated Rule</div>
+    <div class="rule-callout-title">${r.icon || '⚠'} The Code Coach's Updated Rule</div>
     <div class="rule-callout-body">${r.current}</div>
   </div>`;
 }
@@ -6734,7 +6643,7 @@ function runCalc(key) {
     const used = eN * eA;
     const remain = A - used;
     const raw = nA > 0 ? remain / nA : 0;
-    // Perry's Updated Rule: any decimal counts → round up
+    // the Code Coach's Updated Rule: any decimal counts → round up
     const final = raw <= 0 ? 0
                 : (raw === Math.floor(raw)) ? Math.floor(raw)
                 : Math.floor(raw) + 1;
@@ -6742,7 +6651,7 @@ function runCalc(key) {
       + row(`Existing conductors used (${eN} × ${eA.toFixed(4)})`, used.toFixed(3) + ' sq in', 'Ch 9 Table 5')
       + rowSub('Remaining space', remain.toFixed(3) + ' sq in', '')
       + row(`Raw count (${remain.toFixed(3)} ÷ ${nA.toFixed(4)})`, raw.toFixed(3), '')
-      + rowTotal('Maximum additional conductors', final + (raw > 0 && raw !== Math.floor(raw) ? '  (rounded UP per Perry\'s rule)' : ''));
+      + rowTotal('Maximum additional conductors', final + (raw > 0 && raw !== Math.floor(raw) ? '  (rounded UP per the Code Coach\'s rule)' : ''));
   }
 
   else if (key === 'voltageDrop') {
@@ -6895,7 +6804,7 @@ init = function() {
   _origInit();
   buildEditionDropdown();
   buildCalcScreens();
-  buildPerryRules();
+  buildCoachRules();
   buildTabsRef();
   showWorkedExamples(null, 'pipeFill');  // default load
   buildReadiness();
@@ -6982,6 +6891,5 @@ init();
 <script>/* PWA SURFACE */
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./service-worker.js').catch(function(){});});}
 </script>
-<script>function aaTgl(){var h=document.documentElement,d=h.getAttribute("data-theme")==="dark";h.setAttribute("data-theme",d?"light":"dark");try{localStorage.setItem("aa.theme",d?"light":"dark")}catch(e){}}(function(){try{var t=localStorage.getItem("aa.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 </body>
 </html>
